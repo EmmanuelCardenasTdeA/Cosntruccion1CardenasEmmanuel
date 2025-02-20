@@ -1,13 +1,13 @@
 package app.domain.models;
 
-public enum Roles {
+public enum Role {
 
-    ADMIN("Admin", 1), VETERINARIAN("Veterinarian", 2), CLIENT("Client", 3), SELLER("Seller", 4);
+    ADMIN("admin", 1), VET("veterianrian", 2), SELLER("seller", 3);
 
-    private String roleName;
-    private int roleId;
+    public String roleName;
+    public int roleId;
 
-    private Roles(String roleName, int roleId) {
+    private Role(String roleName, int roleId) {
         this.roleName = roleName;
         this.roleId = roleId;
     }
@@ -19,4 +19,5 @@ public enum Roles {
     public int getRoleId() {
         return roleId;
     }
+  
 }
