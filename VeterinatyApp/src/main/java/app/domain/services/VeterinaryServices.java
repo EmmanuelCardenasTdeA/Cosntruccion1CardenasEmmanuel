@@ -9,6 +9,8 @@ import app.domain.ports.ClinicalRecordPort;
 public class VeterinaryServices {
 
     private ClinicalRecordPort clinicalRecordPort;
+    private ClinicaRecord clinicalRecord;
+    private ClinicaRecordServices clinicalRecordServices;
 
     public List<ClinicaRecord> getClinicaRecord(User user) throws Exception{
         if(user == null){
@@ -20,5 +22,22 @@ public class VeterinaryServices {
         
         return clinicalRecordPort.getAllClinicalRecordByPerson(user);
 
+    }
+
+    public void createClinicalRecord(User user)throws Exception{
+        if(user.getRole() != 2){
+            throw new Exception("El usuario no es un veterinario");
+        }
+        
+        clinicalRecord.setCosultation("Consulta");
+        clinicalRecord.setSyntomatology("Sintomatologia");
+        clinicalRecord.setDiagnostic("Diagnostico");
+        clinicalRecord.setTreatment("Tratamiento");
+        clinicalRecord.setOrden(null);
+        clinicalRecord.setVacumHistory(null);
+        clinicalRecord.setAllergyMedicines(null);
+        clinicalRecord.setDetailsTreatement("Detalles del tratamiento");
+        clinicalRecord.setActiva(true);
+        clinicalRecordServices.saveClinicalRecord(clinicalRecord);
     }
 }

@@ -9,4 +9,6 @@ public interface ClinicalRecordPort {
     public List<ClinicaRecord> getAllClinicalRecord();
 
     public List<ClinicaRecord> getAllClinicalRecordByPerson(Person person);
+
+    
 }
