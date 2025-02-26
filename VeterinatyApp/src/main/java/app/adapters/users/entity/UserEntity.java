@@ -30,5 +30,5 @@ public class UserEntity {
     private String password;
     @Column(name = "role")
     private int role;
-
+    
 }

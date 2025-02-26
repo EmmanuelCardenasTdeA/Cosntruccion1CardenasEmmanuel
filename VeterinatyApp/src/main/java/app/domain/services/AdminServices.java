@@ -76,6 +76,7 @@ public class AdminServices {
         if(user == null){
             return clinicalRecordPort.getAllClinicalRecord();
         }
+        
         if(user.getRole() != 1){
             throw new Exception("El usuario no es administrador");
         }

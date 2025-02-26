@@ -2,10 +2,10 @@ package app.domain.models;
 
 public enum Role {
 
-    ADMIN("admin", 1), VET("veterianrian", 2), SELLER("seller", 3);
+    ADMIN("ADMIN", 1), VET("Veterinario", 2), SELLER("Vendedor", 3), CLIENT("Cliente", 4);
 
-    public String roleName;
-    public int roleId;
+    private String roleName;
+    private int roleId;
 
     private Role(String roleName, int roleId) {
         this.roleName = roleName;
@@ -19,5 +19,19 @@ public enum Role {
     public int getRoleId() {
         return roleId;
     }
-  
+
+    public String getRoleNameByRoleId(int roleId){
+        switch (roleId) {
+            case 1:
+                return ADMIN.getRoleName();
+            case 2:
+                return VET.getRoleName();
+            case 3:
+                return SELLER.getRoleName();
+            case 4:
+                return CLIENT.getRoleName();
+            default:
+                return null;
+        }
+    }
 }

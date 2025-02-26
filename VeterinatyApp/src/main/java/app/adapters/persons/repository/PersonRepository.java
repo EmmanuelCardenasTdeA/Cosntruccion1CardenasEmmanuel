@@ -10,5 +10,4 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
     
     PersonEntity findByDocument(long personDocument);
 
-
 }
