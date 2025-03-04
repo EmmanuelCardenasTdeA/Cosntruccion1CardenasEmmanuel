@@ -9,20 +9,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Pet{
     
+    private String ownerName;
+    private long ownerDocument;
     private String petName;
-    private Person owner;
     private long petAge;
     private long petId;
     private String petRace;
     private double petWeight;
     
-    public Pet(String petName, Person owner, long petAge, long petId, String petRace, double petWeight) {
+    public Pet(String ownerName, long ownerDocument, String petName, long petAge, long petId, String petRace,
+            double petWeight) {
+        this.ownerName = ownerName;
+        this.ownerDocument = ownerDocument;
         this.petName = petName;
-        this.owner = owner;
         this.petAge = petAge;
         this.petId = petId;
         this.petRace = petRace;
         this.petWeight = petWeight;
     }
-  
+    
+
 }

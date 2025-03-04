@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -18,10 +19,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class UserEntity {
+
     @Id
-    @Column(name = "person_document")
-    private long personDocument;
-    @JoinColumn(name="person_document")
+    @Column(name ="user_id")
+    private long userId;
+    @JoinColumn(name = "person_document")
     @OneToOne
     private PersonEntity person;
     @Column(name="user_name")
@@ -30,5 +32,7 @@ public class UserEntity {
     private String password;
     @Column(name = "role")
     private int role;
+    @Column(name ="role_name")
+    private String roleName;
     
 }

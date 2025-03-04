@@ -61,15 +61,9 @@ public class AdminServices {
     }
 
     public void registerPet(Pet pet) throws Exception{
-        if(!petPort.existsPerson(pet.getOwner().getPersonDocument())){
-            throw new Exception("La mascota no tiene dueño");
-        }
-        pet.setPetName("petName");
-        pet.setOwner(personPort.findByDocument(123));
-        pet.setPetAge(0);
-        pet.setPetRace("petRace");
-        pet.setPetWeight(123.123);
-        petPort.savePet(pet);
+
+        //Agregar Lógica
+        petPort.save(pet);
     }
 
      public List<ClinicaRecord> getClinicaRecord(User user) throws Exception{

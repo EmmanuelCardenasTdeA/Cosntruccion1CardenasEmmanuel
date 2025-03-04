@@ -16,17 +16,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class PersonEntity {
-    public PersonEntity(Person person){
-        this.personDocument=person.getPersonDocument();
-        this.personName=person.getPersonName();
-        this.personAge=person.getPersonAge();
-    }
-
     @Id
     @Column(name = "document")
-    private long personDocument;
+    private long document;
     @Column(name = "name")
-    private String personName;
+    private String name;
     @Column(name = "age")
-    private long personAge;
+    private long age;
 }

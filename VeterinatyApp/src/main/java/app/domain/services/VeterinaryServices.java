@@ -47,14 +47,8 @@ public class VeterinaryServices {
     }
 
         public void registerPet(Pet pet) throws Exception{
-        if(!petPort.existsPerson(pet.getOwner().getPersonDocument())){
-            throw new Exception("La mascota no tiene dueño");
-        }
-        pet.setPetName("petName2");
-        pet.setOwner(personPort.findByDocument(123));
-        pet.setPetAge(0);
-        pet.setPetRace("petRace2");
-        pet.setPetWeight(1231.123);
-        petPort.savePet(pet);
+        
+        //Agregar lógica
+        petPort.save(pet);
     }
 }

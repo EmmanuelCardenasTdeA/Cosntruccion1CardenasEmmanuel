@@ -12,16 +12,15 @@ public class UserAdapter implements UserPort{
     private User user;
 
     public boolean existUserName(String userName){
-        return userRepository.existsUserName(userName);
+        return userRepository.existsByUserName(userName);
     }
 
     public void saveUser(User user){
         UserEntity userEntity = userEntityAdapter(user);
         userRepository.save(userEntity);
-        user.setPersonDocument(userEntity.getPersonDocument());
     }
 
-    public User findByDocument(Person person){
+    public User findByPersonDocument(Person person){
         PersonEntity personEntity = personEntityAdapter(person);
         UserEntity userEntity = userRepository.findByPersonDocument(personEntity);
         User user = userAdapter(userEntity);
@@ -34,12 +33,13 @@ public class UserAdapter implements UserPort{
         }
 
         User user = new User();
-        user.setPersonDocument(userEntity.getPerson().getPersonDocument());
-        user.setPersonName(userEntity.getPerson().getPersonName());
-        user.setPersonAge(userEntity.getPerson().getPersonAge());
+        user.setPersonDocument(userEntity.getPerson().getDocument());
+        user.setPersonName(userEntity.getPerson().getName());
+        user.setPersonAge(userEntity.getPerson().getAge());
         user.setUserName(userEntity.getUserName());
         user.setPassword(userEntity.getPassword());
         user.setRole(userEntity.getRole());
+        user.setPersonName(userEntity.getRoleName());
         return user;
     }
 
@@ -51,14 +51,16 @@ public class UserAdapter implements UserPort{
         userEntity.setUserName(user.getUserName());
         userEntity.setPassword(user.getPassword());
         userEntity.setRole(user.getRole());
+        userEntity.setRoleName(user.getRoleName());
         return userEntity;
     }
 
     private PersonEntity personEntityAdapter(Person person){
         PersonEntity personEntity = new PersonEntity();
-        personEntity.setPersonDocument(user.getPersonDocument());
-        personEntity.setPersonName(user.getPersonName());
-        personEntity.setPersonAge(user.getPersonAge());
+        personEntity.setDocument(user.getPersonDocument());
+        personEntity.setName(user.getPersonName());
+        personEntity.setAge(user.getPersonAge());
         return personEntity;
     }
+
 }

@@ -4,10 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import app.adapters.persons.entity.PersonEntity;
 
+
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
 
-    boolean existsByPersonDocument(long personDocument);
+    public boolean existsByDocument(long document);
     
-    PersonEntity findByDocument(long personDocument);
+    public PersonEntity findByDocument(long document);
 
 }

@@ -9,25 +9,35 @@ public class PersonAdapter implements PersonPort {
     private PersonRepository personRepository;
 
     public boolean existsPerson(long personDocument){
-        return personRepository.existsByPersonDocument(personDocument);
+        return personRepository.existsByDocument(personDocument);
     }
 
     public void savePerson(Person person){
-        PersonEntity personEntity = new PersonEntity(person);
+        PersonEntity personEntity = personAdapter(person);        
         personRepository.save(personEntity);
-        person.setPersonDocument(personEntity.getPersonDocument());
+        person.setPersonDocument(personEntity.getDocument());
+    }
+    
+    public Person findByPersonDocument(long personDocument){
+        PersonEntity personEntity = personRepository.findByDocument(personDocument);
+        return personAdapter(personEntity);
     }
 
-    public Person findByDocument(long document){
-        PersonEntity personEntity = personRepository.findByDocument(document);
-        return adapterPerson(personEntity);
-    }
-
-    private Person adapterPerson(PersonEntity personEntity){
+    
+    private Person personAdapter(PersonEntity personEntity){
         Person person = new Person();
-        person.setPersonDocument(personEntity.getPersonDocument());
-        person.setPersonName(personEntity.getPersonName());
-        person.setPersonAge(personEntity.getPersonAge());
+        person.setPersonName(personEntity.getName());
+        person.setPersonDocument(personEntity.getDocument());
+        person.setPersonAge(personEntity.getAge());
         return person;
     }
+
+    private PersonEntity personAdapter(Person person){
+        PersonEntity personEntity = new PersonEntity();
+        person.setPersonName(personEntity.getName());
+        person.setPersonDocument(personEntity.getDocument());
+        person.setPersonAge(personEntity.getAge());
+        return personEntity;
+    }
+
 }

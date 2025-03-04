@@ -1,9 +1,9 @@
 package app.domain.ports;
 
+import app.domain.models.Person;
 import app.domain.models.Pet;
 
 public interface PetPort {
-
-    public boolean existsPerson(long personDocument);
-    public void savePet(Pet pet);
+    public void save(Pet pet);
+    public Pet findByOwnerDocument(Person person);
 }
