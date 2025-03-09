@@ -14,17 +14,17 @@ public class Invoiced {
     private Pet pet;
     private Person owner;
     private Orden orden;
-    private double amout;
+    private double amount;
     private long medicationQuantity;
     private Date date;
 
-    public Invoiced(long invoicedId, Pet pet, Person owner, Orden orden, double amout, long medicationQuantity,
+    public Invoiced(long invoicedId, Pet pet, Person owner, Orden orden, double amount, long medicationQuantity,
             Date date) {
         this.invoicedId = invoicedId;
         this.pet = pet;
         this.owner = owner;
         this.orden = orden;
-        this.amout = amout;
+        this.amount = amount;
         this.medicationQuantity = medicationQuantity;
         this.date = date;
     }

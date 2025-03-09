@@ -5,9 +5,10 @@ import java.util.List;
 import app.domain.models.ClinicaRecord;
 import app.domain.models.Pet;
 import app.domain.models.User;
-import app.domain.ports.ClinicalRecordPort;
-import app.domain.ports.PersonPort;
-import app.domain.ports.PetPort;
+import app.ports.ClinicalRecordPort;
+import app.ports.PersonPort;
+import app.ports.PetPort;
+
 
 public class VeterinaryServices {
 

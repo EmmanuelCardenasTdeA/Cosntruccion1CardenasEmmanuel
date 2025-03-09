@@ -3,7 +3,7 @@ package app.adapters.persons;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.persons.repository.PersonRepository;
 import app.domain.models.Person;
-import app.domain.ports.PersonPort;
+import app.ports.PersonPort;
 
 public class PersonAdapter implements PersonPort {
     private PersonRepository personRepository;
@@ -39,5 +39,5 @@ public class PersonAdapter implements PersonPort {
         person.setPersonAge(personEntity.getAge());
         return personEntity;
     }
-
+    
 }

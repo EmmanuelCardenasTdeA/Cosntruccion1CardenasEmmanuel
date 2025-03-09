@@ -6,10 +6,11 @@ import app.domain.models.ClinicaRecord;
 import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
-import app.domain.ports.ClinicalRecordPort;
-import app.domain.ports.PersonPort;
-import app.domain.ports.PetPort;
-import app.domain.ports.UserPort;
+import app.ports.ClinicalRecordPort;
+import app.ports.PersonPort;
+import app.ports.PetPort;
+import app.ports.UserPort;
+
 
 public class AdminServices {
     private ClinicalRecordPort clinicalRecordPort;
@@ -23,12 +24,6 @@ public class AdminServices {
         if(userPort.existUserName(user.getUserName())){
             throw new Exception("Ya existe un usuario con ese nombre");
         }
-        user.setPersonDocument(1);
-        user.setPersonName("veterinary");
-        user.setPersonAge(0);
-        user.setUserName("userName");
-        user.setPassword("password");
-        user.setRole(2);
         personPort.savePerson(user);
         userPort.saveUser(user);
     }
@@ -40,29 +35,24 @@ public class AdminServices {
         if(userPort.existUserName(user.getUserName())){
             throw new Exception("Ya existe un usuario con ese nombre");
         }
-        user.setPersonDocument(12);
-        user.setPersonName("seller");
-        user.setPersonAge(0);
-        user.setUserName("userNameSeller");
-        user.setPassword("password");
-        user.setRole(3);
         personPort.savePerson(user);
         userPort.saveUser(user);
     }
     
     public void registerOwner(Person person) throws Exception{
         if(personPort.existsPerson(person.getPersonDocument())){
-            throw new Exception("Ya existe un dueño con ese nombre");
+            throw new Exception("Ya existe un cliente con ese documento");
         }
-        person.setPersonDocument(123);
-        person.setPersonName("owner");
-        person.setPersonAge(0);
+        
         personPort.savePerson(person);
     }
 
-    public void registerPet(Pet pet) throws Exception{
-
-        //Agregar Lógica
+    public void registerPet(Pet pet, Person person) throws Exception{
+      //Agregar Lógica
+        if(!personPort.existsPerson(person.getPersonDocument())){
+            throw new Exception("No existe un Cliente con esa cedula.");
+        }
+        pet.setPerson(person);
         petPort.save(pet);
     }
 

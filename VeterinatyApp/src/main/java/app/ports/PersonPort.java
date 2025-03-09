@@ -1,5 +1,4 @@
-package app.domain.ports;
-
+package app.ports;
 import app.domain.models.Person;
 
 public interface PersonPort {

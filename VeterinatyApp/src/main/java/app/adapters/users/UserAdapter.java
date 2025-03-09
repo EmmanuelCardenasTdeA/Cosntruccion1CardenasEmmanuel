@@ -5,7 +5,7 @@ import app.adapters.users.entity.UserEntity;
 import app.adapters.users.repository.UserRepository;
 import app.domain.models.Person;
 import app.domain.models.User;
-import app.domain.ports.UserPort;
+import app.ports.UserPort;
 
 public class UserAdapter implements UserPort{
     private UserRepository userRepository;
@@ -33,9 +33,9 @@ public class UserAdapter implements UserPort{
         }
 
         User user = new User();
-        user.setPersonDocument(userEntity.getPerson().getDocument());
-        user.setPersonName(userEntity.getPerson().getName());
-        user.setPersonAge(userEntity.getPerson().getAge());
+        user.setPersonDocument(userEntity.getPersonEntity().getDocument());
+        user.setPersonName(userEntity.getPersonEntity().getName());
+        user.setPersonAge(userEntity.getPersonEntity().getAge());
         user.setUserName(userEntity.getUserName());
         user.setPassword(userEntity.getPassword());
         user.setRole(userEntity.getRole());
@@ -47,11 +47,10 @@ public class UserAdapter implements UserPort{
         PersonEntity personEntity = personEntityAdapter(user);
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setPerson(personEntity);
+        userEntity.setPersonEntity(personEntity);
         userEntity.setUserName(user.getUserName());
         userEntity.setPassword(user.getPassword());
         userEntity.setRole(user.getRole());
-        userEntity.setRoleName(user.getRoleName());
         return userEntity;
     }
 

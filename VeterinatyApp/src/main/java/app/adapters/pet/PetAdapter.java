@@ -1,14 +1,12 @@
 package app.adapters.pet;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import app.adapters.persons.entity.PersonEntity;
-import app.adapters.persons.repository.PersonRepository;
 import app.adapters.pet.entity.PetEntity;
 import app.adapters.pet.repository.PetRepository;
 import app.domain.models.Person;
 import app.domain.models.Pet;
-import app.domain.ports.PetPort;
+import app.ports.PetPort;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Service
 public class PetAdapter implements PetPort{
-    private PersonRepository personRepository;
+    @Autowired
     private PetRepository petRepository;
-
 
     @Override
     public void save(Pet pet) {
@@ -30,22 +27,36 @@ public class PetAdapter implements PetPort{
     }
 
     @Override
-    public Pet findByOwnerDocument(Person person){
-        PetEntity petEntity = petRepository.findByOwnerDocument(person);
+    public Pet findByOwnerDocument(Person personDocument){
+        PersonEntity personEntity = personAdapter(personDocument);
+        PetEntity petEntity = petRepository.findByOwnerDocument(personEntity);
         return petAdapter(petEntity);
     }
 
     private PetEntity petAdapter(Pet pet){
         PetEntity petEntity = new PetEntity();
-        petEntity.setOwnerName(pet.getOwnerName());
-        petEntity.setOwnerDocument(pet.getOwnerDocument());
+        petEntity.setPersonEntity(personAdapter(pet.getPerson()));
         return petEntity;
+    }
+    private PersonEntity personAdapter(Person person){
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.setName(person.getPersonName());
+        personEntity.setDocument(person.getPersonDocument());
+        personEntity.setAge(person.getPersonAge());
+        return personEntity;
+    }
+
+    private Person personAdapter(PersonEntity personEntity){
+        Person person = new Person();
+        person.setPersonName(personEntity.getName());
+        person.setPersonDocument(personEntity.getDocument());
+        person.setPersonAge(personEntity.getAge());
+        return person;
     }
 
     private Pet petAdapter(PetEntity petEntity){
         Pet pet = new Pet();
-        pet.setOwnerName(petEntity.getOwnerName());
-        pet.setOwnerDocument(petEntity.getOwnerDocument());
+        pet.setPerson(personAdapter(petEntity.getPersonEntity()));
         pet.setPetName(petEntity.getPetName());
         pet.setPetAge(petEntity.getPetAge());
         pet.setPetId(petEntity.getPetId());

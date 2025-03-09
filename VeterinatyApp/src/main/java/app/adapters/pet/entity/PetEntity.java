@@ -1,10 +1,12 @@
 package app.adapters.pet.entity;
 
+import app.adapters.persons.entity.PersonEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +19,8 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class PetEntity {
-    @Column(name="owner_name")
-    private String ownerName;
-    @Column(name="owner_document")
-    private long ownerDocument;
+    @JoinColumn(name="document")
+    private PersonEntity personEntity;
     @Column(name ="pet_name")
     private String petName;
     @Column(name="pet_age")

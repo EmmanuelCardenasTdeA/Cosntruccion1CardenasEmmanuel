@@ -2,8 +2,8 @@ package app.domain.models;
 
 public enum Role {
 
-    ADMIN("ADMIN", 1), VET("Veterinario", 2), SELLER("Vendedor", 3), CLIENT("Cliente", 4);
-
+    ADMIN("ADMIN", 0), VET("Veterinario", 1), SELLER("Vendedor", 2), CLIENT("Cliente", 3);
+    
     private String roleName;
     private int roleId;
 
