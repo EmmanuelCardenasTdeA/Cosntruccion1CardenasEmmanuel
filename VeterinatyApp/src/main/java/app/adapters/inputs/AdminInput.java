@@ -7,9 +7,11 @@ import app.adapters.inputs.utils.PersonValidator;
 import app.adapters.inputs.utils.UserValidator;
 import app.adapters.inputs.utils.Utils;
 import app.domain.models.Person;
+import app.domain.models.Pet;
 import app.domain.models.User;
 import app.domain.services.AdminServices;
 import app.ports.InputPort;
+import ch.qos.logback.classic.pattern.Util;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,7 +52,8 @@ public class AdminInput implements InputPort{
             case "3":
                 this.createCliend();
                 return true;
-            
+            case "4":
+                this.cretedPet();
 			case "8" :{
 				System.out.println("Se ha cerrado sesion");
 				return false;
@@ -104,6 +107,7 @@ public class AdminInput implements InputPort{
         user.setUserName(userName);
         user.setPassword(password);
         user.setRole(2);
+        adminService.registerSeller(user);
     }
 
     private void createCliend() throws Exception{
@@ -117,5 +121,30 @@ public class AdminInput implements InputPort{
         person.setPersonName(name);
         person.setPersonDocument(document);
         person.setPersonAge(age);
+        adminService.registerOwner(person);
+    }
+    private void cretedPet() throws Exception{
+        System.out.print("Cedula del dueño: ");
+        long personDocument = personValidator.documentValudator(Utils.getReader().nextLine());
+        System.out.print("Nombre de la mascota: ");
+        String name = personValidator.nameValidator(Utils.getReader().nextLine());
+        System.out.print("Edad de la mascota: ");
+        int age = personValidator.ageValidator(Utils.getReader().nextLine());
+        System.out.print("Especie de la mascota: ");
+        String species = personValidator.nameValidator(Utils.getReader().nextLine());
+        System.out.print("Raza de la mascota: ");
+        String race = personValidator.nameValidator(Utils.getReader().nextLine());
+        System.out.print("Peso de la mascota: ");
+        double weigth = personValidator.numValidator(Utils.getReader().nextLine());
+        Pet pet = new Pet();
+        Person owner = new Person();
+        owner.setPersonDocument(personDocument);
+        pet.setPersonId(owner);
+        pet.setPetName(name);
+        pet.setPetAge(age);
+        pet.setPetSpecies(species);
+        pet.setPetRace(race);
+        pet.setPetWeight(weigth);
+        adminService.registerPet(pet);
     }
 }

@@ -6,5 +6,6 @@ import app.domain.models.Invoiced;
 
 public interface InvoicedPort {
     public List<Invoiced> getAllInvoices();
+    public void saveInvoiced(Invoiced invoiced);
 
 }

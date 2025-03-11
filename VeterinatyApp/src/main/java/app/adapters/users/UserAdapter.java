@@ -36,6 +36,7 @@ public class UserAdapter implements UserPort{
         user.setPersonDocument(userEntity.getPersonEntity().getDocument());
         user.setPersonName(userEntity.getPersonEntity().getName());
         user.setPersonAge(userEntity.getPersonEntity().getAge());
+        user.setUserId(userEntity.getUserId());
         user.setUserName(userEntity.getUserName());
         user.setPassword(userEntity.getPassword());
         user.setRole(userEntity.getRole());
@@ -44,10 +45,11 @@ public class UserAdapter implements UserPort{
     }
 
     private UserEntity userEntityAdapter(User user){
+        
         PersonEntity personEntity = personEntityAdapter(user);
-
         UserEntity userEntity = new UserEntity();
         userEntity.setPersonEntity(personEntity);
+        userEntity.setUserId(user.getUserId());
         userEntity.setUserName(user.getUserName());
         userEntity.setPassword(user.getPassword());
         userEntity.setRole(user.getRole());

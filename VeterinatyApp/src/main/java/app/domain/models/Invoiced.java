@@ -11,19 +11,19 @@ import lombok.Setter;
 
 public class Invoiced {
     private long invoicedId;
-    private Pet pet;
-    private Person owner;
-    private Orden orden;
+    private Pet petId;
+    private Person ownerId;
+    private Orden ordenId;
     private double amount;
     private long medicationQuantity;
     private Date date;
 
-    public Invoiced(long invoicedId, Pet pet, Person owner, Orden orden, double amount, long medicationQuantity,
+    public Invoiced(long invoicedId, Pet petId, Person ownerId, Orden ordenId, double amount, long medicationQuantity,
             Date date) {
         this.invoicedId = invoicedId;
-        this.pet = pet;
-        this.owner = owner;
-        this.orden = orden;
+        this.petId = petId;
+        this.ownerId = ownerId;
+        this.ordenId = ordenId;
         this.amount = amount;
         this.medicationQuantity = medicationQuantity;
         this.date = date;

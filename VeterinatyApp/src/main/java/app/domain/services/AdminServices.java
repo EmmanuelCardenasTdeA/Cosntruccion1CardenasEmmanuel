@@ -47,13 +47,15 @@ public class AdminServices {
         personPort.savePerson(person);
     }
 
-    public void registerPet(Pet pet, Person person) throws Exception{
-      //Agregar Lógica
-        if(!personPort.existsPerson(person.getPersonDocument())){
-            throw new Exception("No existe un Cliente con esa cedula.");
+    public void registerPet(Pet pet) throws Exception{
+        Person person = personPort.findByPersonDocument(pet.getPersonId().getPersonDocument());
+        if(person == null){
+            System.out.println("No existe un cliente con ese documento");
+            throw new Exception("No existe una persona con ese documetno");
         }
-        pet.setPerson(person);
-        petPort.save(pet);
+        
+        pet.setPersonId(person);
+        petPort.savePet(pet);
     }
 
      public List<ClinicaRecord> getClinicaRecord(User user) throws Exception{

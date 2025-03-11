@@ -1,10 +1,16 @@
 package app.adapters.invoiced.repository;
 
-import app.domain.models.Person;
+import java.sql.Date;
+import java.util.List;
 
-public interface InvoicedRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public boolean existPerson(long document);
-    public void savePerson(Person person);
-    public Person findByDocument(long document);
+import app.adapters.invoiced.entity.InvoicedEntity;
+
+public interface InvoicedRepository extends JpaRepository<InvoicedEntity, Long>{
+    public List<InvoicedEntity> findByPersonDocument(long personDocument);
+    public List<InvoicedEntity> findByPetId(long petId);
+    public List<InvoicedEntity> findByOrdenId(long ordenId);
+    public List<InvoicedEntity> findByDate(Date date);
+    public void saveInvoiced(InvoicedEntity invoicedEntity);
 } 

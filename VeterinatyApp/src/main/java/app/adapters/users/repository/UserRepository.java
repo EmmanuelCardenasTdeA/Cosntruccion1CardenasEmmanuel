@@ -9,5 +9,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
     public boolean existsByUserName(String userName);
     public UserEntity findByPersonDocument(PersonEntity personEntity);
+    public void saveUser(UserEntity userEntity);
 } 
 

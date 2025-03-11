@@ -3,6 +3,7 @@ package app.domain.services;
 import java.util.List;
 
 import app.domain.models.ClinicaRecord;
+import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
 import app.ports.ClinicalRecordPort;
@@ -35,21 +36,27 @@ public class VeterinaryServices {
             throw new Exception("El usuario no es un veterinario");
         }
         
-        clinicalRecord.setCosultation("Consulta");
-        clinicalRecord.setSyntomatology("Sintomatologia");
-        clinicalRecord.setDiagnostic("Diagnostico");
-        clinicalRecord.setTreatment("Tratamiento");
-        clinicalRecord.setOrden(null);
-        clinicalRecord.setVacumHistory(null);
-        clinicalRecord.setAllergyMedicines(null);
-        clinicalRecord.setDetailsTreatement("Detalles del tratamiento");
         clinicalRecord.setActiva(true);
         clinicalRecordServices.saveClinicalRecord(clinicalRecord);
     }
 
-        public void registerPet(Pet pet) throws Exception{
-        
+    public void registerPet(Pet pet) throws Exception{
         //Agregar lógica
-        petPort.save(pet);
+        Person person = personPort.findByPersonDocument(pet.getPersonId().getPersonDocument());
+        if(person == null){
+            throw new Exception("No existe una persona con ese documetno");
+        }
+        
+        pet.setPersonId(person);
+        petPort.savePet(pet);
     }
+    
+    public void registerClient(Person person)throws Exception{
+        if(personPort.existsPerson(person.getPersonDocument())){
+            throw new Exception("Ya existe una Ciente con esa cedula");
+        }
+        personPort.savePerson(person);
+        System.out.println("Cliente Creado");
+    }
+
 }

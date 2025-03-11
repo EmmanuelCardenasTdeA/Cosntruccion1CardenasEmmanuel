@@ -9,13 +9,14 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class User extends Person {
-
+    private long userId;
     private String userName;
     private String password;
     private int role;
 
-    public User(long personDocument, String personName, long personAge, String userName, String password, int role) {
+    public User(long userId, long personDocument, String personName, long personAge, String userName, String password, int role) {
         super(personDocument, personName, personAge);
+        this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.role = role;
