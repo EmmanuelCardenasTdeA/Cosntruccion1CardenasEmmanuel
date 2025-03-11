@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import app.adapters.inputs.utils.PersonValidator;
+import app.adapters.inputs.utils.PetValidator;
 import app.adapters.inputs.utils.UserValidator;
 import app.adapters.inputs.utils.Utils;
 import app.domain.models.Person;
@@ -27,6 +28,8 @@ public class AdminInput implements InputPort{
     private UserValidator userValidator;
     @Autowired
     private AdminServices adminService;
+    @Autowired
+    private PetValidator petValidator;
 
     private final String MENU = "Ingrese la opción: " + "\n 1. Para Crear Veterinario" + "\n 2. Para Crear Vendedor" + "\n 3. Para Crear un cliente" + "\n 4. Para Crear Una Mascota" 
     + "\n 5. ver facturas de un cliente" + "\n 6. ver ordenes de una mascota" + "\n 7. ver historias clínicas de una mascota" + "\n 8. Cerrar Sesion";
@@ -127,15 +130,15 @@ public class AdminInput implements InputPort{
         System.out.print("Cedula del dueño: ");
         long personDocument = personValidator.documentValudator(Utils.getReader().nextLine());
         System.out.print("Nombre de la mascota: ");
-        String name = personValidator.nameValidator(Utils.getReader().nextLine());
+        String name = petValidator.nameValidator(Utils.getReader().nextLine());
         System.out.print("Edad de la mascota: ");
-        int age = personValidator.ageValidator(Utils.getReader().nextLine());
+        int age = petValidator.ageValidator(Utils.getReader().nextLine());
         System.out.print("Especie de la mascota: ");
-        String species = personValidator.nameValidator(Utils.getReader().nextLine());
+        String species = petValidator.speciesValidator(Utils.getReader().nextLine());
         System.out.print("Raza de la mascota: ");
-        String race = personValidator.nameValidator(Utils.getReader().nextLine());
+        String race = petValidator.raceValidator(Utils.getReader().nextLine());
         System.out.print("Peso de la mascota: ");
-        double weigth = personValidator.numValidator(Utils.getReader().nextLine());
+        double weigth = petValidator.weigthValidator(Utils.getReader().nextLine());
         Pet pet = new Pet();
         Person owner = new Person();
         owner.setPersonDocument(personDocument);

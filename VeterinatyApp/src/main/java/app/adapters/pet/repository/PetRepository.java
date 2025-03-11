@@ -8,6 +8,7 @@ import app.adapters.pet.entity.PetEntity;
 
 public interface PetRepository extends JpaRepository<PetEntity, Long>{
     public void savePet(PetEntity petEntity);
-    public PetEntity findByOwnerDocument(PersonEntity personDocument);
+    public PetEntity findByOwnerDocument(long personDocument);
+    public PetEntity findByPetId(long petId);
 }
 

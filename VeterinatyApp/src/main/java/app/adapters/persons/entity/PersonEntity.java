@@ -1,6 +1,5 @@
 package app.adapters.persons.entity;
 
-import app.domain.models.Person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

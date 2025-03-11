@@ -11,21 +11,23 @@ public class UserAdapter implements UserPort{
     private UserRepository userRepository;
     private User user;
 
+    @Override
     public boolean existUserName(String userName){
         return userRepository.existsByUserName(userName);
     }
 
+    @Override
     public void saveUser(User user){
         UserEntity userEntity = userEntityAdapter(user);
         userRepository.save(userEntity);
     }
 
-    public User findByPersonDocument(Person person){
-        PersonEntity personEntity = personEntityAdapter(person);
-        UserEntity userEntity = userRepository.findByPersonDocument(personEntity);
-        User user = userAdapter(userEntity);
-        return user;
+    @Override
+    public User findByPersonDocument(Long personDocument) {
+        UserEntity userEntity = userRepository.findByPersonDocument(personDocument);
+        return userAdapter(userEntity);
     }
+    
 
     private User userAdapter(UserEntity userEntity){
         if(userEntity == null){
@@ -63,5 +65,7 @@ public class UserAdapter implements UserPort{
         personEntity.setAge(user.getPersonAge());
         return personEntity;
     }
+
+
 
 }

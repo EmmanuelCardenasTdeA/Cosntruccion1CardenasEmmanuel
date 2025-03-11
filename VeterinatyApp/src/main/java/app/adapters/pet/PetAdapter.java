@@ -27,10 +27,16 @@ public class PetAdapter implements PetPort{
     }
 
     @Override
-    public Pet findByOwnerDocument(Person personDocument){
-        PersonEntity personEntity = personAdapter(personDocument);
-        PetEntity petEntity = petRepository.findByOwnerDocument(personEntity);
+    public Pet findByOwnerDocument(Long personDocument) {
+        PetEntity petEntity = petRepository.findByOwnerDocument(personDocument);
         return petAdapter(petEntity);
+    }
+
+
+    @Override
+    public Pet findByPetId(Long petId) {
+       PetEntity petEntity = petRepository.findByPetId(petId);
+       return petAdapter(petEntity);
     }
 
     private PetEntity petAdapter(Pet pet){

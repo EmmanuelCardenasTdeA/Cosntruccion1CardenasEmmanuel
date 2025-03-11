@@ -3,12 +3,15 @@ package app.domain.services;
 import java.util.List;
 
 import app.domain.models.ClinicaRecord;
+import app.domain.models.Orden;
 import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
 import app.ports.ClinicalRecordPort;
+import app.ports.OrdenPort;
 import app.ports.PersonPort;
 import app.ports.PetPort;
+import app.ports.UserPort;
 
 
 public class VeterinaryServices {
@@ -18,7 +21,8 @@ public class VeterinaryServices {
     private ClinicaRecordServices clinicalRecordServices;
     private PetPort petPort;
     private PersonPort personPort;
-
+    private UserPort userPort;
+    private OrdenPort ordenPort;
     public List<ClinicaRecord> getClinicaRecord(User user) throws Exception{
         if(user == null){
             return clinicalRecordPort.getAllClinicalRecord();
@@ -58,5 +62,22 @@ public class VeterinaryServices {
         personPort.savePerson(person);
         System.out.println("Cliente Creado");
     }
-
+    public void registerOrden(Orden orden) throws Exception{
+        Pet pet = petPort.findByPetId(orden.getPet().getPetId());
+        Person person = personPort.findByPersonDocument(orden.getOwner().getPersonDocument());
+        User user = userPort.findByPersonDocument(orden.getVeterinarian().getPersonDocument());
+        if(pet == null){
+            throw new Exception("No existe mascota con ese ID");
+        }
+        if(person == null){
+            throw new Exception("No existe cliente con esa cedula"); 
+        }
+        if(user == null){
+            throw new Exception("No existe veterinario con esa cedula");
+        }
+        orden.setPet(pet);
+        orden.setOwner(person);
+        orden.setVeterinarian(user);
+        ordenPort.saveOrden(orden);
+    }
 }

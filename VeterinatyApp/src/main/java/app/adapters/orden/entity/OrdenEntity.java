@@ -40,6 +40,8 @@ public class OrdenEntity {
     private String medicationName;
     @Column(name="medication_dosis")
     private double medicationDosis;
+    @Column(name = "orden_status")
+    private String ordenStatus;
     @Column(name = "date")
     private Date date;
 }

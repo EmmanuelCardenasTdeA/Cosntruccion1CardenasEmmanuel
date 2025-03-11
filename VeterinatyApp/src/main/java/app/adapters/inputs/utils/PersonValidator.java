@@ -15,7 +15,4 @@ public class PersonValidator extends SimpleValidator{
         return intValidator(value, "eda de la persona");
     }
 
-    public double numValidator(String value) throws Exception{
-        return doubleValidator(value, "peso");
-    }
 }
