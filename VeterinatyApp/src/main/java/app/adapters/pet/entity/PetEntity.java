@@ -22,15 +22,15 @@ import lombok.Setter;
 public class PetEntity {
     @JoinColumn(name="document")
     @OneToOne
-    private PersonEntity personEntity;
-    @Column(name ="pet_name")
-    private String petName;
-    @Column(name="pet_age")
-    private long petAge;
+    private PersonEntity owner;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pet_id")
     private long petId;
+    @Column(name ="pet_name")
+    private String petName;
+    @Column(name="pet_age")
+    private long petAge;
     @Column(name = "species")
     private String petSpecies;
     @Column(name = "pet_race")

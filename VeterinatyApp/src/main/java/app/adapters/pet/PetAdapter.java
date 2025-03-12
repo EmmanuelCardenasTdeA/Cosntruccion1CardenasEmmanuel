@@ -22,7 +22,7 @@ public class PetAdapter implements PetPort{
     @Override
     public void savePet(Pet pet) {
         PetEntity petEntity = petAdapter(pet);
-        petRepository.savePet(petEntity);
+        petRepository.save(petEntity);
         pet.setPetId(petEntity.getPetId());
     }
 
@@ -41,7 +41,7 @@ public class PetAdapter implements PetPort{
 
     private PetEntity petAdapter(Pet pet){
         PetEntity petEntity = new PetEntity();
-        petEntity.setPersonEntity(personAdapter(pet.getPersonId()));
+        petEntity.setOwner(personAdapter(pet.getPersonId()));
         return petEntity;
     }
     private PersonEntity personAdapter(Person person){
@@ -62,7 +62,7 @@ public class PetAdapter implements PetPort{
 
     private Pet petAdapter(PetEntity petEntity){
         Pet pet = new Pet();
-        pet.setPersonId(personAdapter(petEntity.getPersonEntity()));
+        pet.setPersonId(personAdapter(petEntity.getOwner()));
         pet.setPetName(petEntity.getPetName());
         pet.setPetAge(petEntity.getPetAge());
         pet.setPetId(petEntity.getPetId());

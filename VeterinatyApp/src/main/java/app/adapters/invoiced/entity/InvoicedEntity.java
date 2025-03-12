@@ -1,13 +1,9 @@
 package app.adapters.invoiced.entity;
 
-import java.sql.Date;
-
+import java.sql.Timestamp;
 import app.adapters.orden.entity.OrdenEntity;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.pet.entity.PetEntity;
-import app.domain.models.Orden;
-import app.domain.models.Person;
-import app.domain.models.Pet;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Invoiced")
+@Table(name = "invoiced")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -33,18 +29,18 @@ public class InvoicedEntity{
     private long invoicedId;
     @JoinColumn(name="pet_id")
     @OneToOne
-    private PetEntity petEntity;
+    private PetEntity pet;
     @JoinColumn(name = "document")
     @OneToOne
-    private PersonEntity personEntity;
+    private PersonEntity person;
     @JoinColumn(name="orden_id")
     @OneToOne
-    private OrdenEntity ordenEntity;
+    private OrdenEntity orden;
     @Column(name="amount")
     private double amount;
     @Column(name="medication_quantity")
     private long medicationQuantity;
-    @Column(name="Date")
-    private Date date;
+    @Column(name="date")
+    private Timestamp date;
   
 }

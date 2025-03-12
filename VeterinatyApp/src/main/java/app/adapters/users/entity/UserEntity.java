@@ -24,14 +24,11 @@ public class UserEntity {
     private long userId;
     @JoinColumn(name = "document")
     @OneToOne
-    private PersonEntity personEntity;
+    private PersonEntity person;
     @Column(name="user_name")
     private String userName;
     @Column(name="password")
     private String password;
     @Column(name = "role")
-    private int role;
-    @Column(name ="role_name")
-    private String roleName;
-    
+    private int role;    
 }

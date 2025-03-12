@@ -2,6 +2,8 @@ package app.domain.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import app.domain.models.ClinicaRecord;
 import app.domain.models.Orden;
 import app.domain.models.Person;
@@ -13,7 +15,7 @@ import app.ports.PersonPort;
 import app.ports.PetPort;
 import app.ports.UserPort;
 
-
+@Service
 public class VeterinaryServices {
 
     private ClinicalRecordPort clinicalRecordPort;

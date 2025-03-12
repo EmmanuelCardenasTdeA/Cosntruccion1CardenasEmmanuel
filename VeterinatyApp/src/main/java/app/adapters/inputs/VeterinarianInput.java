@@ -1,6 +1,7 @@
 package app.adapters.inputs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import app.adapters.inputs.utils.OrdenValidator;
 import app.adapters.inputs.utils.PersonValidator;
@@ -12,8 +13,14 @@ import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
 import app.domain.services.VeterinaryServices;
-import ch.qos.logback.classic.pattern.Util;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@Component
 public class VeterinarianInput {
     @Autowired
     private PersonValidator personValidator;

@@ -1,6 +1,6 @@
 package app.adapters.orden.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.pet.entity.PetEntity;
@@ -29,13 +29,13 @@ public class OrdenEntity {
     private long ordenId;
     @JoinColumn(name="pet_id")
     @OneToOne
-    private PetEntity petEntity;
+    private PetEntity pet;
     @JoinColumn(name =("document"))
     @OneToOne
-    private PersonEntity personEntity;
+    private PersonEntity person;
     @JoinColumn(name = "user_id")
     @OneToOne
-    private UserEntity userEntity;
+    private UserEntity user;
     @Column(name="medication_name")
     private String medicationName;
     @Column(name="medication_dosis")
@@ -43,5 +43,5 @@ public class OrdenEntity {
     @Column(name = "orden_status")
     private String ordenStatus;
     @Column(name = "date")
-    private Date date;
+    private Timestamp date;
 }

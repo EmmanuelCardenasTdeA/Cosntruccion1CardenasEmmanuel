@@ -1,5 +1,8 @@
 package app.adapters.inputs.utils;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SimpleValidator {
     public String stringValidator(String value, String element) throws Exception{
         if(value ==null || value.equals("")){

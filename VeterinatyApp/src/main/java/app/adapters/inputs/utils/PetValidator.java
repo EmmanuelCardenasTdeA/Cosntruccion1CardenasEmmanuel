@@ -1,5 +1,8 @@
 package app.adapters.inputs.utils;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PetValidator extends SimpleValidator{
     public String nameValidator(String value) throws Exception{
         return stringValidator(value, "nombre de la mascota");

@@ -1,6 +1,6 @@
 package app.domain.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +18,10 @@ public class Orden {
     private String medicationName;
     private double medicationDosis;
     private String ordenStatus;
-    private Date date;
+    private Timestamp date;
 
     public Orden(long ordenId, Pet pet, Person owner, User veterinarian, String medicationName,
-    String ordenStatus, double medicationDosis, Date date) {
+    String ordenStatus, double medicationDosis, Timestamp date) {
         this.ordenId = ordenId;
         this.pet = pet;
         this.owner = owner;

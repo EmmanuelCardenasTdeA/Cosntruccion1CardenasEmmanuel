@@ -12,7 +12,6 @@ import app.domain.models.Pet;
 import app.domain.models.User;
 import app.domain.services.AdminServices;
 import app.ports.InputPort;
-import ch.qos.logback.classic.pattern.Util;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,11 +22,14 @@ import lombok.Setter;
 @Component
 public class AdminInput implements InputPort{
     @Autowired
-    private PersonValidator personValidator; 
+    private PersonValidator personValidator;
+
     @Autowired
     private UserValidator userValidator;
+
     @Autowired
     private AdminServices adminService;
+
     @Autowired
     private PetValidator petValidator;
 

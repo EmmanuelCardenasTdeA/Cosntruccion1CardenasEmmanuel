@@ -24,8 +24,9 @@ public class InvoicedAdapter implements InvoicedPort{
     @Override
     public void saveInvoiced(Invoiced invoiced) {
         InvoicedEntity invoicedEntity = invoicedAdapter(invoiced);
-        invoicedRepository.saveInvoiced(invoicedEntity);
+        invoicedRepository.save(invoicedEntity);
         invoiced.setInvoicedId(invoicedEntity.getInvoicedId());
+        invoiced.setDate(invoicedEntity.getDate());
     }
 
     @Override
@@ -34,13 +35,30 @@ public class InvoicedAdapter implements InvoicedPort{
         throw new UnsupportedOperationException("Unimplemented method 'getAllInvoices'");
     }
 
-    
+    @Override
+    public List<InvoicedEntity> findByPersonDocument(long personDocument) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByPersonDocument'");
+    }
+
+    @Override
+    public List<InvoicedEntity> findByPetId(long petId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByPetId'");
+    }
+
+    @Override
+    public List<InvoicedEntity> findByOrdenId(long ordenId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByOrdenId'");
+    }
+
     private InvoicedEntity invoicedAdapter(Invoiced invoiced){
         InvoicedEntity invoicedEntity = new InvoicedEntity();
         invoicedEntity.setAmount(invoiced.getAmount());
-        invoicedEntity.setPetEntity(petAdapter(invoiced.getPetId()));
-        invoicedEntity.setPersonEntity(personAdapter(invoiced.getOwnerId()));
-        invoicedEntity.setOrdenEntity(ordenAdapter(invoiced.getOrdenId()));
+        invoicedEntity.setPet(petAdapter(invoiced.getPet()));
+        invoicedEntity.setPerson(personAdapter(invoiced.getPerson()));
+        invoicedEntity.setOrden(ordenAdapter(invoiced.getOrden()));
         invoicedEntity.setInvoicedId(invoiced.getInvoicedId());
         invoicedEntity.setAmount(invoiced.getAmount());
         invoicedEntity.setMedicationQuantity(invoiced.getMedicationQuantity());
@@ -69,9 +87,9 @@ public class InvoicedAdapter implements InvoicedPort{
 
     private OrdenEntity ordenAdapter(Orden orden){
         OrdenEntity ordenEntity = new OrdenEntity();
-        ordenEntity.setPersonEntity(personAdapter(orden.getOwner()));
-        ordenEntity.setPetEntity(petAdapter(orden.getPet()));
-        ordenEntity.setUserEntity(userAdapter(orden.getVeterinarian()));
+        ordenEntity.setPerson(personAdapter(orden.getOwner()));
+        ordenEntity.setPet(petAdapter(orden.getPet()));
+        ordenEntity.setUser(userAdapter(orden.getVeterinarian()));
         ordenEntity.setOrdenId(orden.getOrdenId());
         ordenEntity.setMedicationName(orden.getMedicationName());
         ordenEntity.setMedicationDosis(orden.getMedicationDosis());
@@ -100,9 +118,9 @@ public class InvoicedAdapter implements InvoicedPort{
     private Orden ordenAdapter(OrdenEntity ordenEntity){
         Orden orden = new Orden();
         orden.setOrdenId(ordenEntity.getOrdenId());
-        orden.setOwner(personAdapter(ordenEntity.getPersonEntity()));
-        orden.setPet(petAdapter(ordenEntity.getPetEntity()));
-        orden.setVeterinarian(userAdapter(ordenEntity.getUserEntity()));
+        orden.setOwner(personAdapter(ordenEntity.getPerson()));
+        orden.setPet(petAdapter(ordenEntity.getPet()));
+        orden.setVeterinarian(userAdapter(ordenEntity.getUser()));
         orden.setMedicationName(ordenEntity.getMedicationName());
         orden.setMedicationDosis(ordenEntity.getMedicationDosis());
         orden.setDate(ordenEntity.getDate());
@@ -114,9 +132,9 @@ public class InvoicedAdapter implements InvoicedPort{
     private Invoiced invoicedAdapter(InvoicedEntity invoicedEntity){
         Invoiced invoiced = new Invoiced();
         invoiced.setInvoicedId(invoicedEntity.getInvoicedId());
-        invoiced.setOrdenId(ordenAdapter(invoicedEntity.getOrdenEntity()));
-        invoiced.setOwnerId(personAdapter(invoicedEntity.getPersonEntity()));
-        invoiced.setPetId(petAdapter(invoicedEntity.getPetEntity()));
+        invoiced.setOrden(ordenAdapter(invoicedEntity.getOrden()));
+        invoiced.setPerson(personAdapter(invoicedEntity.getPerson()));
+        invoiced.setPet(petAdapter(invoicedEntity.getPet()));
         invoiced.setAmount(invoicedEntity.getAmount());
         invoiced.setMedicationQuantity(invoicedEntity.getMedicationQuantity());
         invoiced.setDate(invoicedEntity.getDate());
@@ -127,9 +145,9 @@ public class InvoicedAdapter implements InvoicedPort{
     private User userAdapter(UserEntity userEntity){
         User user = new User();
         user.setUserId(userEntity.getUserId());
-        user.setPersonName(userEntity.getPersonEntity().getName());
-        user.setPersonDocument(userEntity.getPersonEntity().getDocument());
-        user.setPersonAge(userEntity.getPersonEntity().getAge());
+        user.setPersonName(userEntity.getPerson().getName());
+        user.setPersonDocument(userEntity.getPerson().getDocument());
+        user.setPersonAge(userEntity.getPerson().getAge());
         user.setUserName(userEntity.getUserName());
         return user;
     }
@@ -137,7 +155,9 @@ public class InvoicedAdapter implements InvoicedPort{
     private UserEntity userAdapter(User user){
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(user.getUserId());
-        userEntity.setPersonEntity(personAdapter(user));
+        userEntity.setPerson(personAdapter(user));
         return userEntity;
     }
+
+
 }
