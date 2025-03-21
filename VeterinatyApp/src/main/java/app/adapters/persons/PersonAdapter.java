@@ -1,11 +1,23 @@
 package app.adapters.persons;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.persons.repository.PersonRepository;
 import app.domain.models.Person;
 import app.ports.PersonPort;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+
+@Service
 public class PersonAdapter implements PersonPort {
+    @Autowired
     private PersonRepository personRepository;
 
     public boolean existsPerson(long personDocument){
@@ -16,10 +28,14 @@ public class PersonAdapter implements PersonPort {
         PersonEntity personEntity = personAdapter(person);        
         personRepository.save(personEntity);
         person.setPersonDocument(personEntity.getDocument());
+        System.out.println("Cliente Creado.");
     }
     
-    public Person findByPersonDocument(long personDocument){
+    public Person findByPersonDocument(long personDocument)throws Exception{
         PersonEntity personEntity = personRepository.findByDocument(personDocument);
+        if(personEntity==null){
+            throw new Exception("No existe una persona con ese documento");
+        }
         return personAdapter(personEntity);
     }
 
@@ -34,9 +50,9 @@ public class PersonAdapter implements PersonPort {
 
     private PersonEntity personAdapter(Person person){
         PersonEntity personEntity = new PersonEntity();
-        person.setPersonName(personEntity.getName());
-        person.setPersonDocument(personEntity.getDocument());
-        person.setPersonAge(personEntity.getAge());
+        personEntity.setName(person.getPersonName());
+        personEntity.setDocument(person.getPersonDocument());
+        personEntity.setAge(person.getPersonAge());
         return personEntity;
     }
     

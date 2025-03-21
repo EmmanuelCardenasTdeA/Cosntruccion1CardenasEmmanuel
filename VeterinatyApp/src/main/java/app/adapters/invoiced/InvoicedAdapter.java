@@ -1,8 +1,10 @@
 package app.adapters.invoiced;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import app.adapters.invoiced.entity.InvoicedEntity;
 import app.adapters.invoiced.repository.InvoicedRepository;
@@ -16,7 +18,14 @@ import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
 import app.ports.InvoicedPort;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class InvoicedAdapter implements InvoicedPort{
     @Autowired
     private InvoicedRepository invoicedRepository;
@@ -30,39 +39,23 @@ public class InvoicedAdapter implements InvoicedPort{
     }
 
     @Override
-    public List<Invoiced> getAllInvoices() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllInvoices'");
-    }
-
-    @Override
-    public List<InvoicedEntity> findByPersonDocument(long personDocument) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByPersonDocument'");
-    }
-
-    @Override
-    public List<InvoicedEntity> findByPetId(long petId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByPetId'");
-    }
-
-    @Override
-    public List<InvoicedEntity> findByOrdenId(long ordenId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByOrdenId'");
+    public Invoiced findByInvoicedId(long invoicedId) throws Exception{
+        InvoicedEntity invoicedEntity = invoicedRepository.findByInvoicedId(invoicedId);
+        if(invoicedEntity == null){
+            throw new Exception("No existe una fatura con ese Id");
+        }
+        return invoicedAdapter(invoicedEntity);
     }
 
     private InvoicedEntity invoicedAdapter(Invoiced invoiced){
         InvoicedEntity invoicedEntity = new InvoicedEntity();
         invoicedEntity.setAmount(invoiced.getAmount());
-        invoicedEntity.setPet(petAdapter(invoiced.getPet()));
-        invoicedEntity.setPerson(personAdapter(invoiced.getPerson()));
         invoicedEntity.setOrden(ordenAdapter(invoiced.getOrden()));
         invoicedEntity.setInvoicedId(invoiced.getInvoicedId());
+        invoicedEntity.setProduct(invoiced.getProduct());
         invoicedEntity.setAmount(invoiced.getAmount());
         invoicedEntity.setMedicationQuantity(invoiced.getMedicationQuantity());
-        invoicedEntity.setDate(invoiced.getDate());
+        invoicedEntity.setDate(invoiced.getDate());    
         return invoicedEntity;
     }
 
@@ -94,6 +87,7 @@ public class InvoicedAdapter implements InvoicedPort{
         ordenEntity.setMedicationName(orden.getMedicationName());
         ordenEntity.setMedicationDosis(orden.getMedicationDosis());
         ordenEntity.setDate(orden.getDate());
+        ordenEntity.setOrdenStatus(orden.getOrdenStatus());
         return ordenEntity;
     }
 
@@ -124,6 +118,7 @@ public class InvoicedAdapter implements InvoicedPort{
         orden.setMedicationName(ordenEntity.getMedicationName());
         orden.setMedicationDosis(ordenEntity.getMedicationDosis());
         orden.setDate(ordenEntity.getDate());
+        orden.setOrdenStatus(ordenEntity.getOrdenStatus());
         return orden;
     }
 
@@ -133,8 +128,7 @@ public class InvoicedAdapter implements InvoicedPort{
         Invoiced invoiced = new Invoiced();
         invoiced.setInvoicedId(invoicedEntity.getInvoicedId());
         invoiced.setOrden(ordenAdapter(invoicedEntity.getOrden()));
-        invoiced.setPerson(personAdapter(invoicedEntity.getPerson()));
-        invoiced.setPet(petAdapter(invoicedEntity.getPet()));
+        invoiced.setProduct(invoicedEntity.getProduct());
         invoiced.setAmount(invoicedEntity.getAmount());
         invoiced.setMedicationQuantity(invoicedEntity.getMedicationQuantity());
         invoiced.setDate(invoicedEntity.getDate());
@@ -157,6 +151,23 @@ public class InvoicedAdapter implements InvoicedPort{
         userEntity.setUserId(user.getUserId());
         userEntity.setPerson(personAdapter(user));
         return userEntity;
+    }
+
+    @Override
+    public List<Invoiced> getAllInvoiced() throws Exception {
+        List<InvoicedEntity> invoicedEntityList = invoicedRepository.findAll();
+        if(invoicedEntityList.isEmpty()){
+            throw new Exception("No hay facturas");
+        }
+        return invoicedAdapterList(invoicedEntityList);
+    }
+
+    public List<Invoiced> invoicedAdapterList(List<InvoicedEntity> invoicedEntityList)throws Exception{
+        List<Invoiced> invoicedList = new ArrayList<>();
+        for(InvoicedEntity invoicedEntity : invoicedEntityList){
+            invoicedList.add(invoicedAdapter(invoicedEntity));
+        }
+        return invoicedList;
     }
 
 

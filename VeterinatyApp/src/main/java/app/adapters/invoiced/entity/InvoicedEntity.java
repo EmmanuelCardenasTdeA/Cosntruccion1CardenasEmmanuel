@@ -2,8 +2,7 @@ package app.adapters.invoiced.entity;
 
 import java.sql.Timestamp;
 import app.adapters.orden.entity.OrdenEntity;
-import app.adapters.persons.entity.PersonEntity;
-import app.adapters.pet.entity.PetEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,12 +26,6 @@ public class InvoicedEntity{
     @Column(name = "invoiced_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long invoicedId;
-    @JoinColumn(name="pet_id")
-    @OneToOne
-    private PetEntity pet;
-    @JoinColumn(name = "document")
-    @OneToOne
-    private PersonEntity person;
     @JoinColumn(name="orden_id")
     @OneToOne
     private OrdenEntity orden;
@@ -40,7 +33,8 @@ public class InvoicedEntity{
     private double amount;
     @Column(name="medication_quantity")
     private long medicationQuantity;
+    @Column(name ="product")
+    private String product;
     @Column(name="date")
     private Timestamp date;
-  
 }

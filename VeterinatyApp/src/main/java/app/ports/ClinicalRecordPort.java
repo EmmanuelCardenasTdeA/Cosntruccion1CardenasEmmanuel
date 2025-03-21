@@ -1,12 +1,10 @@
 package app.ports;
 import java.util.List;
+
 import app.domain.models.ClinicaRecord;
-import app.domain.models.Person;
 
 public interface ClinicalRecordPort {
-    public List<ClinicaRecord> getAllClinicalRecord();
-
-    public List<ClinicaRecord> getAllClinicalRecordByPerson(Person person);
-
-    
+    public ClinicaRecord getClinicaRecordByClnicaId(long clinicaId)throws Exception;
+    public List<ClinicaRecord> getAllClinicaRecord()throws Exception;
+    public void saveClinicaRecord(ClinicaRecord clinicaRecord)throws Exception;
 }

@@ -9,7 +9,11 @@ public class OrdenValidator extends SimpleValidator {
         return stringValidator(value, "nombre del medicamento");
     }
 
-    public long dosisValidator(String value) throws Exception{
-        return longValidator(value, "dosis del medicamento");
+    public double dosisValidator(String value) throws Exception{
+        return doubleValidator(value, "dosis del medicamento");
+    }
+
+    public long ordenIdValidator(String value)throws Exception{
+        return longValidator(value, "id orden");
     }
 }

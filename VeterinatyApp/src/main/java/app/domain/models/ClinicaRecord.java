@@ -1,8 +1,6 @@
 package app.domain.models;
 
-import java.sql.Date;
-import java.util.List;
-
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,24 +9,23 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class ClinicaRecord {
-    private Date date;
-    private Person veterinary;
-    private String cosultation;
+    private long clinicaId;
+    private Timestamp date;
+    private String consultation;
     private String syntomatology;
     private String diagnostic;
     private String treatment;
     private Orden orden;
-    private List<String> vacumHistory;
-    private List<String> allergyMedicines;
+    private String vacumHistory;
+    private String allergyMedicines;
     private String detailsTreatement;
-    private boolean isActiva;
 
-    public ClinicaRecord(Date date, Person veterinary, String cosultation, String syntomatology, String diagnostic,
-            String treatment, Orden orden, List<String> vacumHistory, List<String> allergyMedicines,
-            String detailsTreatement, boolean isActiva) {
+    public ClinicaRecord(long clinicaId,Timestamp date, String consultation, String syntomatology, String diagnostic,
+            String treatment, Orden orden, String vacumHistory, String allergyMedicines,
+            String detailsTreatement) {
+        this.clinicaId = clinicaId;
         this.date = date;
-        this.veterinary = veterinary;
-        this.cosultation = cosultation;
+        this.consultation = consultation;
         this.syntomatology = syntomatology;
         this.diagnostic = diagnostic;
         this.treatment = treatment;
@@ -36,7 +33,7 @@ public class ClinicaRecord {
         this.vacumHistory = vacumHistory;
         this.allergyMedicines = allergyMedicines;
         this.detailsTreatement = detailsTreatement;
-        this.isActiva = isActiva;
+
     }
     
 

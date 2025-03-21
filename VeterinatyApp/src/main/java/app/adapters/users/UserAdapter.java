@@ -1,15 +1,37 @@
 package app.adapters.users;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.users.entity.UserEntity;
 import app.adapters.users.repository.UserRepository;
 import app.domain.models.Person;
 import app.domain.models.User;
 import app.ports.UserPort;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class UserAdapter implements UserPort{
+    @Autowired
     private UserRepository userRepository;
+
     private User user;
+
+    @Override
+    public User findByUserName(User user) throws Exception{
+        UserEntity userEntity = userRepository.findByUserName(user.getUserName());
+        if(userEntity == null){
+            throw new Exception("No existe un usuario con ese nombre");
+        }
+        return userAdapter(userEntity);
+    }
+
 
     @Override
     public boolean existUserName(String userName){
@@ -18,23 +40,22 @@ public class UserAdapter implements UserPort{
 
     @Override
     public void saveUser(User user){
-        UserEntity userEntity = userEntityAdapter(user);
+        System.out.println("datos que llegan al user adapter: " + user.getPersonName() + " " + user.getPersonDocument());
+        UserEntity userEntity = userAdapter(user);
+        System.out.println("datos antes de ser guardados: "+ userEntity.getUserName() + " " + userEntity.getPerson().getDocument());
         userRepository.save(userEntity);
         user.setUserId(userEntity.getUserId());
     }
 
     @Override
-    public User findByPersonDocument(Long personDocument) {
+    public User findByPersonDocument(Long personDocument)throws Exception {
         UserEntity userEntity = userRepository.findByPersonDocument(personDocument);
+        if(userEntity==null){throw new Exception("No existe un usuario con ese documento");}
         return userAdapter(userEntity);
     }
     
 
     private User userAdapter(UserEntity userEntity){
-        if(userEntity == null){
-            return null;
-        }
-
         User user = new User();
         user.setPersonDocument(userEntity.getPerson().getDocument());
         user.setPersonName(userEntity.getPerson().getName());
@@ -46,9 +67,13 @@ public class UserAdapter implements UserPort{
         return user;
     }
 
-    private UserEntity userEntityAdapter(User user){
-        
-        PersonEntity personEntity = personEntityAdapter(user);
+    private UserEntity userAdapter(User user){
+        //reemplazo metodo personAdpter por mala implementación
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.setName(user.getPersonName());
+        personEntity.setDocument(user.getPersonDocument());
+        personEntity.setAge(user.getPersonAge());
+
         UserEntity userEntity = new UserEntity();
         userEntity.setPerson(personEntity);
         userEntity.setUserId(user.getUserId());
@@ -57,15 +82,6 @@ public class UserAdapter implements UserPort{
         userEntity.setRole(user.getRole());
         return userEntity;
     }
-
-    private PersonEntity personEntityAdapter(Person person){
-        PersonEntity personEntity = new PersonEntity();
-        personEntity.setDocument(user.getPersonDocument());
-        personEntity.setName(user.getPersonName());
-        personEntity.setAge(user.getPersonAge());
-        return personEntity;
-    }
-
 
 
 }

@@ -1,21 +1,23 @@
-package app.adapters.orden;
-
+package app.adapters.clinicaRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import app.adapters.clinicaRecord.entity.ClinicaRecordEntity;
+import app.adapters.clinicaRecord.repository.ClinicaRecordRepository;
 import app.adapters.orden.entity.OrdenEntity;
-import app.adapters.orden.repository.OrdenRepository;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.pet.entity.PetEntity;
 import app.adapters.users.entity.UserEntity;
+import app.domain.models.ClinicaRecord;
 import app.domain.models.Orden;
 import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
-import app.ports.OrdenPort;
+import app.ports.ClinicalRecordPort;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,27 +26,58 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Service
-public class OrdenAdapter implements OrdenPort{
+public class ClinicaRecordAdapter implements ClinicalRecordPort{
     @Autowired
-    private OrdenRepository ordenRepository;
+    ClinicaRecordRepository clinicaRecordRepository;
 
+    
     @Override
-    public void saveOrden(Orden orden) {
-        OrdenEntity ordenEntity = ordenAdapter(orden);
-        ordenRepository.save(ordenEntity);
-        orden.setOrdenId(ordenEntity.getOrdenId());
-        orden.setDate(ordenEntity.getDate());
-        System.out.println("Orden Creada");
+    public void saveClinicaRecord(ClinicaRecord clinicaRecord) throws Exception {
+        ClinicaRecordEntity clinicaRecordEntity = clinicaAdapter(clinicaRecord);
+        clinicaRecordRepository.save(clinicaRecordEntity);
+        clinicaRecord.setClinicaId(clinicaRecordEntity.getClinicaId());
+        clinicaRecord.setDate(clinicaRecordEntity.getDate());
+        System.out.println("Historia Clinica Guardada!");
+    }  
+    
+    @Override
+    public ClinicaRecord getClinicaRecordByClnicaId(long clinicaId) throws Exception {
+        ClinicaRecord clinicaRecord = clinicaAdapter(clinicaRecordRepository.findByClinicaId(clinicaId));
+        if(clinicaRecord == null){throw new Exception("No existe una historia con ese documento");}
+        return clinicaRecord;
     }
 
-    @Override
-    public Orden findByOrdenId(long ordenId) throws Exception {
-        Orden orden = ordenAdapter(ordenRepository.findByOrdenId(ordenId));
-        if(orden == null){throw new Exception("No existe una orden con ese ID");}
-        return orden;
+    private ClinicaRecordEntity clinicaAdapter(ClinicaRecord clinicaRecord){
+        ClinicaRecordEntity clinicaRecordEntity = new ClinicaRecordEntity();
+        clinicaRecordEntity.setClinicaId(clinicaRecord.getClinicaId());
+        clinicaRecordEntity.setDate(clinicaRecord.getDate());
+        clinicaRecordEntity.setConsultation(clinicaRecord.getConsultation());
+        clinicaRecordEntity.setSyntomatology(clinicaRecord.getSyntomatology());
+        clinicaRecordEntity.setDiagnostic(clinicaRecord.getDiagnostic());
+        clinicaRecordEntity.setTreatment(clinicaRecord.getTreatment());
+        clinicaRecordEntity.setOrden(ordenAdapter(clinicaRecord.getOrden()));  //Obtener Cliente, Mascota y Veterinario
+        clinicaRecordEntity.setVacumHistory(clinicaRecord.getVacumHistory());
+        clinicaRecordEntity.setAllergyMedicines(clinicaRecord.getAllergyMedicines());
+        clinicaRecordEntity.setDetailsTreatement(clinicaRecord.getDetailsTreatement());
+        return clinicaRecordEntity;
     }
 
-    private OrdenEntity ordenAdapter(Orden orden){
+    private ClinicaRecord clinicaAdapter(ClinicaRecordEntity clinicaRecordEntity){
+        ClinicaRecord clinicalRecord = new ClinicaRecord();
+        clinicalRecord.setClinicaId(clinicaRecordEntity.getClinicaId());
+        clinicalRecord.setDate(clinicaRecordEntity.getDate());
+        clinicalRecord.setConsultation(clinicaRecordEntity.getConsultation());
+        clinicalRecord.setSyntomatology(clinicaRecordEntity.getSyntomatology());
+        clinicalRecord.setDiagnostic(clinicaRecordEntity.getDiagnostic());
+        clinicalRecord.setTreatment(clinicaRecordEntity.getTreatment());
+        clinicalRecord.setOrden(ordenAdapter(clinicaRecordEntity.getOrden()));  //Obtener Cliente, Mascota y Veterinario
+        clinicalRecord.setVacumHistory(clinicaRecordEntity.getVacumHistory());
+        clinicalRecord.setAllergyMedicines(clinicaRecordEntity.getAllergyMedicines());
+        clinicalRecord.setDetailsTreatement(clinicaRecordEntity.getDetailsTreatement());
+        return clinicalRecord;
+    }
+
+        private OrdenEntity ordenAdapter(Orden orden){
         OrdenEntity ordenEntity = new OrdenEntity();
         ordenEntity.setOrdenId(orden.getOrdenId());
         ordenEntity.setPet(petAdapter(orden.getPet()));
@@ -69,8 +102,7 @@ public class OrdenAdapter implements OrdenPort{
         orden.setOrdenStatus(ordenEntity.getOrdenStatus());
         return orden;
     }
-
-    private PetEntity petAdapter(Pet pet){
+        private PetEntity petAdapter(Pet pet){
         PetEntity petEntity = new PetEntity();
         petEntity.setPetId(pet.getPetId());
         petEntity.setPetName(pet.getPetName());
@@ -137,19 +169,17 @@ public class OrdenAdapter implements OrdenPort{
     }
 
     @Override
-    public List<Orden> getAllOrden() throws Exception {
-        List<OrdenEntity> ordenEntityList = ordenRepository.findAll();
-        if(ordenEntityList.isEmpty()){throw new Exception("No hay ordenes en la base de datos");}
-        return ordenAdapterList(ordenEntityList);
+    public List<ClinicaRecord> getAllClinicaRecord() throws Exception {
+        List<ClinicaRecordEntity> clinicaRecordEntityList = clinicaRecordRepository.findAll();
+        if(clinicaRecordEntityList.isEmpty()){throw new Exception("No hay historias clinicas");}
+        return clinicaAdapterList(clinicaRecordEntityList);
     }
-
-    public List<Orden> ordenAdapterList(List<OrdenEntity> ordenEntityList){
-        List<Orden> ordenList = new ArrayList<>();
-        for(OrdenEntity ordenEntity : ordenEntityList){
-            ordenList.add(ordenAdapter(ordenEntity));
+    
+    public List<ClinicaRecord> clinicaAdapterList(List<ClinicaRecordEntity> clinicaRecordEntityList){
+        List<ClinicaRecord> clinicaRecordList = new ArrayList<>();
+        for(ClinicaRecordEntity clinicaRecordEntity : clinicaRecordEntityList){
+            clinicaRecordList.add(clinicaAdapter(clinicaRecordEntity));
         }
-        return ordenList;
+        return clinicaRecordList;
     }
-
-
 }

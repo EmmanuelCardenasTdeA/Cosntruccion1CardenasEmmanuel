@@ -44,4 +44,8 @@ public class OrdenEntity {
     private String ordenStatus;
     @Column(name = "date")
     private Timestamp date;
+    public int size() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'size'");
+    }
 }

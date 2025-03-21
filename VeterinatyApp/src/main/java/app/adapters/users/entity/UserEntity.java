@@ -22,13 +22,13 @@ public class UserEntity {
     @Id
     @Column(name ="user_id")
     private long userId;
-    @JoinColumn(name = "document")
     @OneToOne
+    @JoinColumn(name = "document")  
     private PersonEntity person;
     @Column(name="user_name")
     private String userName;
     @Column(name="password")
     private String password;
     @Column(name = "role")
-    private int role;    
+    private String role;    
 }

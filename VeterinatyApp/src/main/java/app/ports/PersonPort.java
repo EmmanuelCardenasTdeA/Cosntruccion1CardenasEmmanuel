@@ -1,8 +1,9 @@
 package app.ports;
+
 import app.domain.models.Person;
 
 public interface PersonPort {
-    public boolean existsPerson(long personDocument);
-    public void savePerson(Person person);
-    public Person findByPersonDocument(long personDocument);
+    public boolean existsPerson(long personDocument)throws Exception;
+    public void savePerson(Person person)throws Exception;
+    public Person findByPersonDocument(long personDocument)throws Exception;
 }

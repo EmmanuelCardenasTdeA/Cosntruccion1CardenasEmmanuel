@@ -24,24 +24,37 @@ public class PetAdapter implements PetPort{
         PetEntity petEntity = petAdapter(pet);
         petRepository.save(petEntity);
         pet.setPetId(petEntity.getPetId());
+        System.out.println("Mascota Creada.");
     }
 
     @Override
-    public Pet findByOwnerDocument(Long personDocument) {
+    public Pet findByOwnerDocument(Long personDocument)throws Exception{
         PetEntity petEntity = petRepository.findByOwnerDocument(personDocument);
+        if(petEntity == null){
+            throw new Exception("No existe un Cliente con esa cedula");
+        }
         return petAdapter(petEntity);
     }
 
 
     @Override
-    public Pet findByPetId(Long petId) {
+    public Pet findByPetId(Long petId)throws Exception {
        PetEntity petEntity = petRepository.findByPetId(petId);
+       if(petEntity == null){
+        throw new Exception("No existe un Cliente con esa cedula");
+    }
        return petAdapter(petEntity);
     }
 
     private PetEntity petAdapter(Pet pet){
         PetEntity petEntity = new PetEntity();
         petEntity.setOwner(personAdapter(pet.getPersonId()));
+        petEntity.setPetId(pet.getPetId());
+        petEntity.setPetName(pet.getPetName());
+        petEntity.setPetAge(pet.getPetAge());
+        petEntity.setPetSpecies(pet.getPetSpecies());
+        petEntity.setPetRace(pet.getPetRace());
+        petEntity.setPetWeight(pet.getPetWeight());
         return petEntity;
     }
     private PersonEntity personAdapter(Person person){
