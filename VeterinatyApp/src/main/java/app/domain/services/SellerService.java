@@ -25,7 +25,6 @@ public class SellerService {
         if(orden == null){
             throw new Exception("No existe una orden con ese ID");
         }
-        System.out.println(orden.getOrdenStatus());
         return orden;
     }
 

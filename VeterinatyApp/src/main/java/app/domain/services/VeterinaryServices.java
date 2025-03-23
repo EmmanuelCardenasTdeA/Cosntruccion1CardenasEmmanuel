@@ -60,6 +60,9 @@ public class VeterinaryServices {
         if(user == null){
             throw new Exception("No existe veterinario con esa cedula");
         }
+        if(!user.getRole().equalsIgnoreCase("veterinary")){
+            throw new Exception("El usuario no es un veterinario");
+        }
         orden.setPet(pet);
         orden.setOwner(person);
         orden.setVeterinarian(user);

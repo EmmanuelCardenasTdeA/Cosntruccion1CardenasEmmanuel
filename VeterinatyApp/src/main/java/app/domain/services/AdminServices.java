@@ -85,6 +85,9 @@ public class AdminServices{
         if(user == null){
             throw new Exception("No existe un veterinario con ese documetno");
         }
+        if(!user.getRole().equalsIgnoreCase("veterinary")){
+            throw new Exception("El usuario no es un veterinario");
+        }
         orden.setPet(pet);
         orden.setOwner(person);
         orden.setVeterinarian(user);
