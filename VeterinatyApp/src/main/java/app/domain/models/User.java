@@ -21,7 +21,4 @@ public class User extends Person {
         this.password = password;
         this.role = role;
     }
-    public String toStringUser(){
-        return "\nVeterinario: "+"\nNombre: "+getPersonName()+"\nDocumento: "+getPersonDocument()+"Edad: "+getPersonAge();
-    }
 }

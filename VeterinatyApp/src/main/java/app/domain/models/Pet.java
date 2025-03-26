@@ -26,9 +26,4 @@ public class Pet{
         this.petRace = petRace;
         this.petWeight = petWeight;
     }
-
-    public String toStringPet(){
-        return "\nId mascota: " + getPetId() + "\nNombre: "+getPetName()+"\nEdad:"+getPetAge()
-        +"\nEspecie: "+getPetSpecies()+"\nRaza: "+getPetRace()+"\nPeso: "+getPetWeight();
-    }
 }

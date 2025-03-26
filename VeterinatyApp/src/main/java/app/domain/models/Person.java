@@ -19,7 +19,4 @@ public class Person {
         this.personName = personName;
         this.personAge = personAge;
     }
-    public String toStringPerson(){
-        return "\nNombre: "+getPersonName()+"\nDocumento: "+getPersonDocument()+"\nEdad: "+getPersonAge();
-    }
 }
