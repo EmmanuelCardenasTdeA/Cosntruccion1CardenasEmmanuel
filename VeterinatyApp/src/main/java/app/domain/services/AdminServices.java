@@ -1,21 +1,36 @@
 package app.domain.services;
 
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import app.domain.models.ClinicaRecord;
+import app.domain.models.Orden;
 import app.domain.models.Person;
 import app.domain.models.Pet;
 import app.domain.models.User;
-import app.domain.ports.ClinicalRecordPort;
-import app.domain.ports.PersonPort;
-import app.domain.ports.PetPort;
-import app.domain.ports.UserPort;
+import app.ports.ClinicalRecordPort;
+import app.ports.OrdenPort;
+import app.ports.PersonPort;
+import app.ports.PetPort;
+import app.ports.UserPort;
 
-public class AdminServices {
-    private ClinicalRecordPort clinicalRecordPort;
+@Service
+public class AdminServices{
+
+    @Autowired
     private PersonPort personPort;
+    @Autowired
     private UserPort userPort;
+    @Autowired
     private PetPort petPort;
+    @Autowired
+    private OrdenPort ordenPort;
+    @Autowired
+    private ClinicalRecordPort clinicalRecordPort;
+
     public void registerVeterinarian(User user)throws Exception{
         if(personPort.existsPerson(user.getPersonDocument())){
             throw new Exception("Ya existe un veterinario con ese nombre");
@@ -23,64 +38,91 @@ public class AdminServices {
         if(userPort.existUserName(user.getUserName())){
             throw new Exception("Ya existe un usuario con ese nombre");
         }
-        user.setPersonDocument(1);
-        user.setPersonName("veterinary");
-        user.setPersonAge(0);
-        user.setUserName("userName");
-        user.setPassword("password");
-        user.setRole(2);
         personPort.savePerson(user);
         userPort.saveUser(user);
     }
 
     public void registerSeller(User user)throws Exception{
         if(personPort.existsPerson(user.getPersonDocument())){
-            throw new Exception("Ya existe un vendedor con ese nombre");
+            throw new Exception("Ya existe un usuario con ese documento");
         }
         if(userPort.existUserName(user.getUserName())){
-            throw new Exception("Ya existe un usuario con ese nombre");
+            throw new Exception("Ya existe un usuario con ese nombre de usuario");
         }
-        user.setPersonDocument(12);
-        user.setPersonName("seller");
-        user.setPersonAge(0);
-        user.setUserName("userNameSeller");
-        user.setPassword("password");
-        user.setRole(3);
         personPort.savePerson(user);
         userPort.saveUser(user);
+        
     }
     
     public void registerOwner(Person person) throws Exception{
         if(personPort.existsPerson(person.getPersonDocument())){
-            throw new Exception("Ya existe un dueño con ese nombre");
+            throw new Exception("Ya existe un cliente con ese documento");
         }
-        person.setPersonDocument(123);
-        person.setPersonName("owner");
-        person.setPersonAge(0);
+        
         personPort.savePerson(person);
     }
 
     public void registerPet(Pet pet) throws Exception{
-        if(!petPort.existsPerson(pet.getOwner().getPersonDocument())){
-            throw new Exception("La mascota no tiene dueño");
+        Person person = personPort.findByPersonDocument(pet.getPersonId().getPersonDocument());
+        if(person == null){
+            throw new Exception("No existe una persona con ese documetno");
         }
-        pet.setPetName("petName");
-        pet.setOwner(personPort.findByDocument(123));
-        pet.setPetAge(0);
-        pet.setPetRace("petRace");
-        pet.setPetWeight(123.123);
+        pet.setPersonId(person);
         petPort.savePet(pet);
     }
 
-     public List<ClinicaRecord> getClinicaRecord(User user) throws Exception{
+    public void registerOrden(Orden orden)throws Exception{
+        Pet pet = petPort.findByPetId(orden.getPet().getPetId());
+        Person person = personPort.findByPersonDocument(orden.getOwner().getPersonDocument());
+        User user = userPort.findByPersonDocument(orden.getVeterinarian().getPersonDocument());
+        if(pet == null){
+            throw new Exception("No existe una mascota con ese documento");
+        }
+        if(person == null){
+            throw new Exception("No existe un cliente con ese documetno");
+        }
         if(user == null){
-            return clinicalRecordPort.getAllClinicalRecord();
+            throw new Exception("No existe un veterinario con ese documetno");
         }
-        if(user.getRole() != 1){
-            throw new Exception("El usuario no es administrador");
+        if(!user.getRole().equalsIgnoreCase("veterinary")){
+            throw new Exception("El usuario no es un veterinario");
         }
-        
-        return clinicalRecordPort.getAllClinicalRecordByPerson(user);
+        orden.setPet(pet);
+        orden.setOwner(person);
+        orden.setVeterinarian(user);
+        ordenPort.saveOrden(orden);
+    }
+ 
+    public Orden getOrdenByOrdenId(long ordenId) throws Exception{
+        Orden orden = ordenPort.findByOrdenId(ordenId);
+        if(orden == null){
+            throw new Exception("No existe una orden con ese ID");
+        }
+        return orden;
+    }
 
+    public void registerClinicaRecord(ClinicaRecord clinicaRecord) throws Exception {
+        Orden orden = ordenPort.findByOrdenId(clinicaRecord.getOrden().getOrdenId());
+        if(orden == null){
+            throw new Exception("No existe una orden con ese documento");
+        }
+        clinicaRecord.setOrden(orden);
+        clinicalRecordPort.saveClinicaRecord(clinicaRecord);
+    }
+
+  public ClinicaRecord getClinicalRecordByClinicaId(long clinicaId) throws Exception{
+        ClinicaRecord clinicaRecord = clinicalRecordPort.getClinicaRecordByClnicaId(clinicaId);
+        if(clinicaRecord == null){
+            throw new Exception("No existe una historia clinica con ese ID");
+        }
+        return clinicaRecord;
+    }
+
+   public  List<Orden> getAllOrdenes() throws Exception {
+        return ordenPort.getAllOrden();
+    }
+
+    public List<ClinicaRecord> getAllClinicaRecords() throws Exception {
+        return clinicalRecordPort.getAllClinicaRecord();
     }
 }

@@ -1,6 +1,7 @@
 package app.domain.models;
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +12,19 @@ import lombok.Setter;
 
 public class Invoiced {
     private long invoicedId;
-    private Pet pet;
-    private Person owner;
     private Orden orden;
-    private double amout;
+    private double amount;
     private long medicationQuantity;
-    private Date date;
+    private String product;
+    private Timestamp date;
 
-    public Invoiced(long invoicedId, Pet pet, Person owner, Orden orden, double amout, long medicationQuantity,
-            Date date) {
+    public Invoiced(long invoicedId, Pet pet, Person person, Orden orden, double amount, long medicationQuantity,String product,
+        Timestamp date) {
         this.invoicedId = invoicedId;
-        this.pet = pet;
-        this.owner = owner;
         this.orden = orden;
-        this.amout = amout;
+        this.amount = amount;
         this.medicationQuantity = medicationQuantity;
+        this.product = product;
         this.date = date;
     }
 }
