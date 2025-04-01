@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import app.adapters.inputs.AdminInput;
 import app.domain.models.ClinicaRecord;
 import app.domain.models.Orden;
 import app.domain.models.Person;
@@ -45,10 +44,10 @@ public class AdminServices{
 
     public void registerSeller(User user)throws Exception{
         if(personPort.existsPerson(user.getPersonDocument())){
-            throw new Exception("Ya existe un vendedor con ese nombre");
+            throw new Exception("Ya existe un usuario con ese documento");
         }
         if(userPort.existUserName(user.getUserName())){
-            throw new Exception("Ya existe un usuario con ese nombre");
+            throw new Exception("Ya existe un usuario con ese nombre de usuario");
         }
         personPort.savePerson(user);
         userPort.saveUser(user);

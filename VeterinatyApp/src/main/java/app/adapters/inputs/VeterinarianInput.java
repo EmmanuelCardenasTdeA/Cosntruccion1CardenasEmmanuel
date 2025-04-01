@@ -142,7 +142,6 @@ public class VeterinarianInput implements InputPort {
         pet.setPetRace(race);
         pet.setPetWeight(weigth);
         veterinaryServices.registerPet(pet);
-        System.out.println("Madcota Registrada");
         System.out.println(toStringPet(pet));
     }
 
@@ -172,6 +171,7 @@ public class VeterinarianInput implements InputPort {
         orden.setVeterinarian(user);
         System.out.println(orden.getPet().getPetId());
         veterinaryServices.registerOrden(orden);
+        System.out.println(toStringOrden(orden));
     }
 
     private void createClinica()throws Exception{
@@ -204,6 +204,7 @@ public class VeterinarianInput implements InputPort {
         clinicaRecord.setAllergyMedicines(allergyMedicines);
         clinicaRecord.setDetailsTreatement(treatmentDetails);
         veterinaryServices.registerClinicaRecord(clinicaRecord);
+        System.out.println(toStringClinica(clinicaRecord));
     }
 
     private void getOrden()throws Exception{
@@ -322,38 +323,40 @@ public class VeterinarianInput implements InputPort {
         return "\nNombre: "+person.getPersonName()+"\nDocumento: "+person.getPersonDocument()+"\nEdad: "+person.getPersonAge();
     }
 
+
     private String validPet() throws Exception {
-        String option = "";
-        boolean validOption = false;
-    
-        while (!validOption) {
-            try {
-                System.out.println("1. Perro 2. Gato 3. Otro");
-                option = Utils.getReader().nextLine();
-                
-                switch (option) {
-                    case "1":
-                        validOption = true;
-                        return "Perro";
-                    case "2":
-                        validOption = true;
-                        return "Gato";
-                    case "3":
-                        validOption = true;
-                        System.out.println("Ingrese la especie: ");
-                        String otherPet = Utils.getReader().nextLine();
-                        return otherPet;
-                    default:
-                        System.out.println("Opción inválida. Por favor, ingrese 1 para Perro, 2 para Gato, o 3 para Otro.");
-                        break;
+        
+        while (true) {  
+           String typePet=typePet();
+           if (!typePet.equals("")){
+                return typePet;
                 }
-            } catch (Exception e) {
-                System.out.println("Ocurrió un error: " + e.getMessage());
-                return e.getMessage();
-            }
         }
-    
-        return "";
+        
+    }
+
+    private String typePet(){
+        try {
+            System.out.println("1. Perro 2. Gato 3. Otro");
+            String option = Utils.getReader().nextLine(); 
+            
+            switch (option) {
+                case "1":
+                    return "Perro";
+                case "2":
+                    return "Gato";
+                case "3":
+                    System.out.println("Ingrese la especie: ");
+                    String otherPet = Utils.getReader().nextLine();
+                    return otherPet;
+                default:
+                    System.out.println("Opción inválida. Por favor, ingrese 1 para Perro, 2 para Gato, o 3 para Otro.");
+                    return "";  
+            }
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error: " + e.getMessage());
+            return "";
+        }
     }
 
     private String validVacumHistory(Pet pet) throws Exception{

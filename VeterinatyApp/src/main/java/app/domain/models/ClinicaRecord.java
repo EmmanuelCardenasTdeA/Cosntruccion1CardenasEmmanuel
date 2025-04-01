@@ -33,8 +33,5 @@ public class ClinicaRecord {
         this.vacumHistory = vacumHistory;
         this.allergyMedicines = allergyMedicines;
         this.detailsTreatement = detailsTreatement;
-
     }
-    
-
 }

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class Pet{
-    /*private Person ownerName; */
     private Person personId;
     private String petName;
     private long petAge;

@@ -3,8 +3,6 @@ package app.adapters.clinicaRecord.entity;
 import java.sql.Timestamp;
 
 import app.adapters.orden.entity.OrdenEntity;
-import app.adapters.users.entity.UserEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
