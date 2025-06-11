@@ -1,0 +1,19 @@
+###Crear factura
+POST http://localhost:8081/Invoiced
+Content-Type: application/json
+
+{
+    "orden":{
+        "ordenId": 8
+    },
+    "amount": 1000,
+    "medicationQuantity": 2,
+    "medicationName": "ApiClient",
+    "product": "Apiclient"
+}
+
+###Ver factura por id
+GET http://localhost:8081/invoiced/3
+
+###Ver todas las facaturas
+GET http://localhost:8081/GetAllInvoiced

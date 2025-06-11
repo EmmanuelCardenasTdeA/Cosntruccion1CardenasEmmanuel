@@ -25,4 +25,11 @@ public class Pet{
         this.petRace = petRace;
         this.petWeight = petWeight;
     }
+
+    public String toString() {
+        return "ID:" + petId + ", Cedula Dueño:" + personId.getPersonDocument() + ", Nombre dueño: "+ personId.getPersonName() + ", Dueño edad: "+ personId.getPersonAge()+", Nombre:" + petName 
+        + ", Edad: " + petAge + ", Especie: " + petSpecies + ", Raza: " + petRace + ", Peso: " + petWeight + "]";
+    }
+
+    
 }

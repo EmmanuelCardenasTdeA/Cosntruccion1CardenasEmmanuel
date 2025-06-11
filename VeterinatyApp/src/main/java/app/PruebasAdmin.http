@@ -1,0 +1,22 @@
+###Crear veterinario
+POST http://localhost:8081/vet
+Content-Type: application/json
+{
+  "personDocument": 1001,
+  "personName": "Dr. Andrés Gómez",
+  "personAge": 35,
+  "userName": "andresvet",
+  "password": "vet123"
+}
+
+###Crear Veterinario
+POST http://localhost:8081/Seller
+Content-Type: application/json
+
+{
+  "personDocument": 2002,
+  "personName": "Laura Martínez",
+  "personAge": 28,
+  "userName": "lauraseller",
+  "password": "venta456"
+}

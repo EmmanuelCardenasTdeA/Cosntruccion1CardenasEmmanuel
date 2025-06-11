@@ -3,6 +3,7 @@ package app.adapters.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.Exceptions.BusinessException;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.users.entity.UserEntity;
 import app.adapters.users.repository.UserRepository;
@@ -26,11 +27,19 @@ public class UserAdapter implements UserPort{
     public User findByUserName(User user) throws Exception{
         UserEntity userEntity = userRepository.findByUserName(user.getUserName());
         if(userEntity == null){
-            throw new Exception("No existe un usuario con ese nombre");
+            throw new BusinessException("No existe un usuario con ese nombre");
         }
         return userAdapter(userEntity);
     }
 
+    @Override
+    public User fingByUserId(long userId) throws Exception {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+        if(userEntity == null){
+            throw new BusinessException("No existe un usuario con ese ID");
+        }
+        return userAdapter(userEntity);
+    }
 
     @Override
     public boolean existUserName(String userName){
@@ -38,10 +47,8 @@ public class UserAdapter implements UserPort{
     }
 
     @Override
-    public void saveUser(User user){
-        System.out.println("datos que llegan al user adapter: " + user.getPersonName() + " " + user.getPersonDocument());
+    public void saveUser(User user){      
         UserEntity userEntity = userAdapter(user);
-        System.out.println("datos antes de ser guardados: "+ userEntity.getUserName() + " " + userEntity.getPerson().getDocument());
         userRepository.save(userEntity);
         user.setUserId(userEntity.getUserId());
     }
@@ -49,7 +56,7 @@ public class UserAdapter implements UserPort{
     @Override
     public User findByPersonDocument(Long personDocument)throws Exception {
         UserEntity userEntity = userRepository.findByPersonDocument(personDocument);
-        if(userEntity==null){throw new Exception("No existe un usuario con ese documento");}
+        if(userEntity==null){throw new BusinessException("No existe un usuario con ese documento");}
         return userAdapter(userEntity);
     }
     
@@ -81,6 +88,8 @@ public class UserAdapter implements UserPort{
         userEntity.setRole(user.getRole());
         return userEntity;
     }
+
+
 
 
 }

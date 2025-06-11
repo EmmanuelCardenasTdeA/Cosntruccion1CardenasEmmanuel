@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.Exceptions.BusinessException;
 import app.adapters.invoiced.entity.InvoicedEntity;
 import app.adapters.invoiced.repository.InvoicedRepository;
 import app.adapters.orden.entity.OrdenEntity;
@@ -42,7 +43,7 @@ public class InvoicedAdapter implements InvoicedPort{
     public Invoiced findByInvoicedId(long invoicedId) throws Exception{
         InvoicedEntity invoicedEntity = invoicedRepository.findByInvoicedId(invoicedId);
         if(invoicedEntity == null){
-            throw new Exception("No existe una fatura con ese Id");
+            throw new BusinessException("No existe una fatura con ese Id");
         }
         return invoicedAdapter(invoicedEntity);
     }
@@ -57,6 +58,32 @@ public class InvoicedAdapter implements InvoicedPort{
         invoicedEntity.setMedicationQuantity(invoiced.getMedicationQuantity());
         invoicedEntity.setDate(invoiced.getDate());    
         return invoicedEntity;
+    }
+
+    private OrdenEntity ordenAdapter(Orden orden){
+        OrdenEntity ordenEntity = new OrdenEntity();
+        ordenEntity.setPerson(personAdapter(orden.getOwner()));
+        ordenEntity.setPet(petAdapter(orden.getPet()));
+        ordenEntity.setUser(userAdapter(orden.getVeterinarian()));
+        ordenEntity.setOrdenId(orden.getOrdenId());
+        ordenEntity.setMedicationName(orden.getMedicationName());
+        ordenEntity.setMedicationDosis(orden.getMedicationDosis());
+        ordenEntity.setDate(orden.getDate());
+        ordenEntity.setOrdenStatus(orden.getOrdenStatus());
+        return ordenEntity;
+    }
+
+    private Orden ordenAdapter(OrdenEntity ordenEntity){
+        Orden orden = new Orden();
+        orden.setOrdenId(ordenEntity.getOrdenId());
+        orden.setOwner(personAdapter(ordenEntity.getPerson()));
+        orden.setPet(petAdapter(ordenEntity.getPet()));
+        orden.setVeterinarian(userAdapter(ordenEntity.getUser()));
+        orden.setMedicationName(ordenEntity.getMedicationName());
+        orden.setMedicationDosis(ordenEntity.getMedicationDosis());
+        orden.setDate(ordenEntity.getDate());
+        orden.setOrdenStatus(ordenEntity.getOrdenStatus());
+        return orden;
     }
 
     private PetEntity petAdapter(Pet pet){
@@ -78,18 +105,7 @@ public class InvoicedAdapter implements InvoicedPort{
         return personEntity;
     }
 
-    private OrdenEntity ordenAdapter(Orden orden){
-        OrdenEntity ordenEntity = new OrdenEntity();
-        ordenEntity.setPerson(personAdapter(orden.getOwner()));
-        ordenEntity.setPet(petAdapter(orden.getPet()));
-        ordenEntity.setUser(userAdapter(orden.getVeterinarian()));
-        ordenEntity.setOrdenId(orden.getOrdenId());
-        ordenEntity.setMedicationName(orden.getMedicationName());
-        ordenEntity.setMedicationDosis(orden.getMedicationDosis());
-        ordenEntity.setDate(orden.getDate());
-        ordenEntity.setOrdenStatus(orden.getOrdenStatus());
-        return ordenEntity;
-    }
+
 
     private Pet petAdapter(PetEntity petEntity) {
         Pet pet = new Pet();
@@ -108,20 +124,6 @@ public class InvoicedAdapter implements InvoicedPort{
         person.setPersonAge(personEntity.getAge());
         return person;
     }
-
-    private Orden ordenAdapter(OrdenEntity ordenEntity){
-        Orden orden = new Orden();
-        orden.setOrdenId(ordenEntity.getOrdenId());
-        orden.setOwner(personAdapter(ordenEntity.getPerson()));
-        orden.setPet(petAdapter(ordenEntity.getPet()));
-        orden.setVeterinarian(userAdapter(ordenEntity.getUser()));
-        orden.setMedicationName(ordenEntity.getMedicationName());
-        orden.setMedicationDosis(ordenEntity.getMedicationDosis());
-        orden.setDate(ordenEntity.getDate());
-        orden.setOrdenStatus(ordenEntity.getOrdenStatus());
-        return orden;
-    }
-
 
 
     private Invoiced invoicedAdapter(InvoicedEntity invoicedEntity){
@@ -157,7 +159,7 @@ public class InvoicedAdapter implements InvoicedPort{
     public List<Invoiced> getAllInvoiced() throws Exception {
         List<InvoicedEntity> invoicedEntityList = invoicedRepository.findAll();
         if(invoicedEntityList.isEmpty()){
-            throw new Exception("No hay facturas");
+            throw new BusinessException("No hay facturas");
         }
         return invoicedAdapterList(invoicedEntityList);
     }
