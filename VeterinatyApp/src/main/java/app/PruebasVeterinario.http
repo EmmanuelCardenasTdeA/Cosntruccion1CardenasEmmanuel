@@ -1,0 +1,87 @@
+
+##Servicios veterinario
+###Obtener una mascota por id
+GET http://localhost:8081/pets/1
+
+###Subir un cliente
+POST http://localhost:8081/client
+Content-Type: application/json
+
+{
+    "personDocument": 98765,
+    "personName":"Juan",
+    "personAge":23
+}
+###Crear una mascota
+POST http://localhost:8081/pets
+Content-Type: application/json
+
+{
+  "personDocument": 98765,
+  "petName": "Rocky",
+  "petAge": 4,
+  "petSpecies": "Perro",
+  "petRace": "Bulldog",
+  "petWeight": 22.5
+}
+
+###Crear una Orden
+POST http://localhost:8081/orden
+Content-Type: application/json
+
+{
+  "petId": 9,
+  "veterinarianId": 6,
+  "medicationName": "APICLIENT",
+  "medicationDosis": "250.250"
+}
+
+
+###Crear una historia clinica
+POST http://localhost:8081/Record
+Content-Type: application/json
+
+{
+    "orderId": 8,
+    "consultation": "ConsultaAPI",
+    "syntomatology":"SintomatologiaAPI",
+    "diagnostic": "DiagnosticoAPI",
+    "treatment": "TratamientoAPI",
+    "vacumHistory":"VacunasAPI",
+    "allergyMedicines": "AlergiaAPI",
+    "detailsTreatement": "DetallesAPI"
+}
+###Ver todas las historias clinicas
+GET http://localhost:8081/GetAllRecord
+
+###Ver una historia clinica por id
+GET http://localhost:8081/GetRecord/15
+
+###Ver todas las ordenes
+GET http://localhost:8081/GetAllOrden
+
+###Ver una orden por id
+GET http://localhost:8081/GetOrden/1
+
+###Cancelar una orden por id
+PATCH http://localhost:8081/CancelOrden/3
+
+###Actualizar una historia clinica por id
+PATCH http://localhost:8081/UpdateRecord/1
+Content-Type: application/json
+
+{
+    "syntomatology" : "editadoAPI",
+    "treatment": "editadoAPI",
+    "vacumHistory": "editadoAPI",
+    "detailsTreatement": "editadoAPI"
+}
+
+###Actualizar orden por id
+PATCH  http://localhost:8081/UpdateOrden/1
+Content-Type: application/json
+
+{
+    "medicationName": "editadoAPI",
+    "medicationDosis": "editadoAPI"
+}

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import app.Exceptions.BusinessException;
 import app.adapters.orden.entity.OrdenEntity;
 import app.adapters.orden.repository.OrdenRepository;
 import app.adapters.persons.entity.PersonEntity;
@@ -34,13 +36,12 @@ public class OrdenAdapter implements OrdenPort{
         ordenRepository.save(ordenEntity);
         orden.setOrdenId(ordenEntity.getOrdenId());
         orden.setDate(ordenEntity.getDate());
-        System.out.println("Orden Creada");
     }
 
     @Override
     public Orden findByOrdenId(long ordenId) throws Exception {
         Orden orden = ordenAdapter(ordenRepository.findByOrdenId(ordenId));
-        if(orden == null){throw new Exception("No existe una orden con ese ID");}
+        if(orden == null){throw new BusinessException("No existe una orden con ese ID");}
         return orden;
     }
 
@@ -150,6 +151,5 @@ public class OrdenAdapter implements OrdenPort{
         }
         return ordenList;
     }
-
 
 }

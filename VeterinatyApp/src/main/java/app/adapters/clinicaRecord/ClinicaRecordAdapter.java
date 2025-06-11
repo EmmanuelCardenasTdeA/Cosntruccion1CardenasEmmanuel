@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.Exceptions.BusinessException;
 import app.adapters.clinicaRecord.entity.ClinicaRecordEntity;
 import app.adapters.clinicaRecord.repository.ClinicaRecordRepository;
 import app.adapters.orden.entity.OrdenEntity;
@@ -37,13 +38,12 @@ public class ClinicaRecordAdapter implements ClinicalRecordPort{
         clinicaRecordRepository.save(clinicaRecordEntity);
         clinicaRecord.setClinicaId(clinicaRecordEntity.getClinicaId());
         clinicaRecord.setDate(clinicaRecordEntity.getDate());
-        System.out.println("Historia Clinica Guardada!");
     }  
     
     @Override
     public ClinicaRecord getClinicaRecordByClnicaId(long clinicaId) throws Exception {
         ClinicaRecord clinicaRecord = clinicaAdapter(clinicaRecordRepository.findByClinicaId(clinicaId));
-        if(clinicaRecord == null){throw new Exception("No existe una historia con ese documento");}
+        if(clinicaRecord == null){throw new BusinessException("No existe una historia con ese documento");}
         return clinicaRecord;
     }
 
@@ -148,7 +148,6 @@ public class ClinicaRecordAdapter implements ClinicalRecordPort{
         user.setUserId(userEntity.getUserId());
         user.setUserName(userEntity.getUserName());
         user.setPassword(userEntity.getPassword());
-        user.setRole(userEntity.getRole());
         return user;
     }
 
@@ -164,7 +163,6 @@ public class ClinicaRecordAdapter implements ClinicalRecordPort{
         userEntity.setUserId(user.getUserId());
         userEntity.setUserName(user.getUserName());
         userEntity.setPassword(user.getPassword());
-        userEntity.setRole(user.getRole());
         return userEntity;
     }
 

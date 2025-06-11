@@ -10,4 +10,6 @@ public interface UserPort {
     public User findByPersonDocument(Long personDocument)throws Exception;
 
     public User findByUserName(User user)throws Exception;
+
+    public User fingByUserId(long userId)throws Exception;
 }

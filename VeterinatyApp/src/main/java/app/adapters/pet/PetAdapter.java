@@ -1,6 +1,8 @@
 package app.adapters.pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import app.Exceptions.BusinessException;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.pet.entity.PetEntity;
 import app.adapters.pet.repository.PetRepository;
@@ -24,14 +26,13 @@ public class PetAdapter implements PetPort{
         PetEntity petEntity = petAdapter(pet);
         petRepository.save(petEntity);
         pet.setPetId(petEntity.getPetId());
-        System.out.println("Mascota Creada.");
     }
 
     @Override
     public Pet findByOwnerDocument(Long personDocument)throws Exception{
         PetEntity petEntity = petRepository.findByOwnerDocument(personDocument);
         if(petEntity == null){
-            throw new Exception("No existe un Cliente con esa cedula");
+            throw new BusinessException("No existe un Cliente con esa cedula");
         }
         return petAdapter(petEntity);
     }
@@ -41,7 +42,7 @@ public class PetAdapter implements PetPort{
     public Pet findByPetId(Long petId)throws Exception {
        PetEntity petEntity = petRepository.findByPetId(petId);
        if(petEntity == null){
-        throw new Exception("No existe un Cliente con esa cedula");
+        throw new BusinessException("No existe una mascota con ese ID");
     }
        return petAdapter(petEntity);
     }
@@ -57,6 +58,7 @@ public class PetAdapter implements PetPort{
         petEntity.setPetWeight(pet.getPetWeight());
         return petEntity;
     }
+    
     private PersonEntity personAdapter(Person person){
         PersonEntity personEntity = new PersonEntity();
         personEntity.setName(person.getPersonName());

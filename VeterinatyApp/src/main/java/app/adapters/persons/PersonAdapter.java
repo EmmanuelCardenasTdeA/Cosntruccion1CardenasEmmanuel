@@ -3,6 +3,7 @@ package app.adapters.persons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.Exceptions.BusinessException;
 import app.adapters.persons.entity.PersonEntity;
 import app.adapters.persons.repository.PersonRepository;
 import app.domain.models.Person;
@@ -27,14 +28,12 @@ public class PersonAdapter implements PersonPort {
     public void savePerson(Person person){
         PersonEntity personEntity = personAdapter(person);        
         personRepository.save(personEntity);
-        person.setPersonDocument(personEntity.getDocument());
-        System.out.println("Cliente Creado.");
     }
     
     public Person findByPersonDocument(long personDocument)throws Exception{
         PersonEntity personEntity = personRepository.findByDocument(personDocument);
-        if(personEntity==null){
-            throw new Exception("No existe una persona con ese documento");
+        if(personEntity == null){
+            throw new BusinessException("No existe el cliente con el documento: " + personDocument);
         }
         return personAdapter(personEntity);
     }
